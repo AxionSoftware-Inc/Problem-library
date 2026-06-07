@@ -1,0 +1,222 @@
+[
+  {
+    "id": 1,
+    "title": "Two Sum Mirror",
+    "slug": "two-sum-mirror",
+    "group": "array-string-patterns",
+    "topic": "Arrays",
+    "difficulty": "Easy",
+    "duration": "12 min",
+    "summary": "Find two indices whose values add up to a target with one pass.",
+    "tags": ["hash map", "lookup"]
+  },
+  {
+    "id": 2,
+    "title": "Rotate String Window",
+    "slug": "rotate-string-window",
+    "group": "array-string-patterns",
+    "topic": "Strings",
+    "difficulty": "Easy",
+    "duration": "15 min",
+    "summary": "Check whether one string can become another after cyclic shifts.",
+    "tags": ["strings", "window"]
+  },
+  {
+    "id": 3,
+    "title": "Longest Stable Segment",
+    "slug": "longest-stable-segment",
+    "group": "array-string-patterns",
+    "topic": "Sliding Window",
+    "difficulty": "Medium",
+    "duration": "20 min",
+    "summary": "Return the longest subarray where the max and min differ by at most k.",
+    "tags": ["deque", "window"]
+  },
+  {
+    "id": 4,
+    "title": "Compact Frequency Sort",
+    "slug": "compact-frequency-sort",
+    "group": "array-string-patterns",
+    "topic": "Sorting",
+    "difficulty": "Medium",
+    "duration": "18 min",
+    "summary": "Sort items by frequency and preserve deterministic tie-breaking.",
+    "tags": ["sorting", "map"]
+  },
+  {
+    "id": 5,
+    "title": "Minimum Cover Slice",
+    "slug": "minimum-cover-slice",
+    "group": "array-string-patterns",
+    "topic": "Sliding Window",
+    "difficulty": "Medium",
+    "duration": "24 min",
+    "summary": "Find the shortest substring that covers every required character.",
+    "tags": ["two pointers", "map"]
+  },
+  {
+    "id": 6,
+    "title": "Stacked Brackets Plus",
+    "slug": "stacked-brackets-plus",
+    "group": "stack-queue-flows",
+    "topic": "Stacks",
+    "difficulty": "Easy",
+    "duration": "10 min",
+    "summary": "Validate bracket streams with a small extension rule.",
+    "tags": ["stack", "validation"]
+  },
+  {
+    "id": 7,
+    "title": "Undo Queue Simulator",
+    "slug": "undo-queue-simulator",
+    "group": "stack-queue-flows",
+    "topic": "Queues",
+    "difficulty": "Easy",
+    "duration": "14 min",
+    "summary": "Simulate command history with undo and replay behavior.",
+    "tags": ["queue", "simulation"]
+  },
+  {
+    "id": 8,
+    "title": "Monotonic Price Span",
+    "slug": "monotonic-price-span",
+    "group": "stack-queue-flows",
+    "topic": "Monotonic Stack",
+    "difficulty": "Medium",
+    "duration": "18 min",
+    "summary": "Compute consecutive span lengths for stock-like events.",
+    "tags": ["monotonic", "stack"]
+  },
+  {
+    "id": 9,
+    "title": "Circular Buffer Alerts",
+    "slug": "circular-buffer-alerts",
+    "group": "stack-queue-flows",
+    "topic": "Queues",
+    "difficulty": "Medium",
+    "duration": "22 min",
+    "summary": "Track alert bursts over a rotating event buffer.",
+    "tags": ["queue", "buffer"]
+  },
+  {
+    "id": 10,
+    "title": "Expression Collapse",
+    "slug": "expression-collapse",
+    "group": "stack-queue-flows",
+    "topic": "Parsing",
+    "difficulty": "Hard",
+    "duration": "30 min",
+    "summary": "Evaluate nested tokens with precedence and grouped rollback.",
+    "tags": ["parser", "stack"]
+  },
+  {
+    "id": 11,
+    "title": "Minimum Relay Hops",
+    "slug": "minimum-relay-hops",
+    "group": "graph-search-systems",
+    "topic": "BFS",
+    "difficulty": "Medium",
+    "duration": "20 min",
+    "summary": "Find the fewest hops between relay nodes in an unweighted network.",
+    "tags": ["graph", "bfs"]
+  },
+  {
+    "id": 12,
+    "title": "Island Merge Counter",
+    "slug": "island-merge-counter",
+    "group": "graph-search-systems",
+    "topic": "DFS",
+    "difficulty": "Medium",
+    "duration": "24 min",
+    "summary": "Count components after a sequence of land merge operations.",
+    "tags": ["dfs", "grid"]
+  },
+  {
+    "id": 13,
+    "title": "Weighted Signal Routes",
+    "slug": "weighted-signal-routes",
+    "group": "graph-search-systems",
+    "topic": "Shortest Path",
+    "difficulty": "Hard",
+    "duration": "28 min",
+    "summary": "Return the cheapest route between signal hubs with positive weights.",
+    "tags": ["dijkstra", "graph"]
+  },
+  {
+    "id": 14,
+    "title": "Dependency Unlock Order",
+    "slug": "dependency-unlock-order",
+    "group": "graph-search-systems",
+    "topic": "Topological Sort",
+    "difficulty": "Medium",
+    "duration": "19 min",
+    "summary": "Produce a safe unlock sequence for tasks with prerequisites.",
+    "tags": ["dag", "toposort"]
+  },
+  {
+    "id": 15,
+    "title": "Randomized Load Split",
+    "slug": "randomized-load-split",
+    "group": "graph-search-systems",
+    "topic": "RNG Systems",
+    "difficulty": "Hard",
+    "duration": "32 min",
+    "summary": "Distribute requests across nodes while preserving weighted randomness.",
+    "tags": ["rng", "systems"]
+  },
+  {
+    "id": 16,
+    "title": "Weighted Cache Decisions",
+    "slug": "weighted-cache-decisions",
+    "group": "dynamic-programming",
+    "topic": "Knapsack",
+    "difficulty": "Medium",
+    "duration": "26 min",
+    "summary": "Maximize cache value under strict memory constraints.",
+    "tags": ["dp", "optimization"]
+  },
+  {
+    "id": 17,
+    "title": "Edit Distance Budget",
+    "slug": "edit-distance-budget",
+    "group": "dynamic-programming",
+    "topic": "Strings DP",
+    "difficulty": "Hard",
+    "duration": "34 min",
+    "summary": "Check whether two strings can be aligned within a limited edit budget.",
+    "tags": ["dp", "strings"]
+  },
+  {
+    "id": 18,
+    "title": "Grid Reward Trail",
+    "slug": "grid-reward-trail",
+    "group": "dynamic-programming",
+    "topic": "Grid DP",
+    "difficulty": "Medium",
+    "duration": "23 min",
+    "summary": "Collect the highest reward while moving through constrained grid cells.",
+    "tags": ["grid", "dp"]
+  },
+  {
+    "id": 19,
+    "title": "Partition Balance Score",
+    "slug": "partition-balance-score",
+    "group": "dynamic-programming",
+    "topic": "Subset DP",
+    "difficulty": "Hard",
+    "duration": "31 min",
+    "summary": "Split values into two balanced groups with minimum difference.",
+    "tags": ["subset", "dp"]
+  },
+  {
+    "id": 20,
+    "title": "Multi-Step Coin Paths",
+    "slug": "multi-step-coin-paths",
+    "group": "dynamic-programming",
+    "topic": "Combinatorics",
+    "difficulty": "Medium",
+    "duration": "21 min",
+    "summary": "Count the number of valid paths with step and coin constraints.",
+    "tags": ["counting", "dp"]
+  }
+]
