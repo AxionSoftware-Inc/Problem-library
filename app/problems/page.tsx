@@ -1,172 +1,195 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { GroupCard } from "@/components/problems/group-card";
-import { EmptyState, Badge } from "@/components/ui/primitives";
-import { PageContainer, PageShell } from "@/components/ui/page-shell";
+import { useDeferredValue, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { allProblems } from "@/app/data";
+import { ProjectCreateModal } from "@/components/library/project-create-modal";
+import { ProblemDetailCard } from "@/components/problems/problem-detail-card";
+import { PageContainer, PageSection, PageShell } from "@/components/ui/page-shell";
 import { ui } from "@/components/ui/styles";
-import { allProblems, problemGroups } from "../data";
-
-const difficultyOptions = [
-  "All",
-  "Easy",
-  "Medium",
-  "Hard",
-  "Easy to Medium",
-  "Medium to Hard",
-  "Easy to Hard",
-];
 
 export default function ProblemsPage() {
+  const router = useRouter();
+  const [open, setOpen] = useState(() => {
+    if (typeof window === "undefined") {
+      return false;
+    }
+
+    return new URLSearchParams(window.location.search).get("create") === "1";
+  });
+  const [saving, setSaving] = useState(false);
+  const [message, setMessage] = useState("");
   const [query, setQuery] = useState("");
-  const [difficulty, setDifficulty] = useState("All");
-  const [topic, setTopic] = useState("All topics");
+  const [sortBy, setSortBy] = useState("title");
+  const [form, setForm] = useState({
+    title: "",
+    topic: "",
+    difficulty: "Medium",
+    description: "",
+  });
 
-  const topics = useMemo(
-    () => ["All topics", ...new Set(problemGroups.map((group) => group.topic))],
-    [],
-  );
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("create") === "1") {
+      router.replace("/problems", { scroll: false });
+    }
+  }, [router]);
 
-  const enrichedGroups = useMemo(
-    () =>
-      problemGroups.map((group) => {
-        const problems = allProblems.filter((problem) => problem.group === group.slug);
-        const matchesQuery =
-          query.trim().length === 0 ||
-          [
-            group.title,
-            group.topic,
-            group.description,
-            ...problems.flatMap((problem) => [
-              problem.title,
-              problem.topic,
-              problem.summary,
-              problem.difficulty,
-              ...problem.tags,
-            ]),
-          ]
-            .join(" ")
+  const deferredQuery = useDeferredValue(query);
+  const filteredProblems = (() => {
+    const normalized = deferredQuery.trim().toLowerCase();
+    const matches = allProblems.filter((problem) => {
+      if (!normalized) {
+        return true;
+      }
+
+      return [
+        problem.title,
+        problem.topic,
+        problem.difficulty,
+        problem.summary,
+        ...problem.tags,
+      ]
+        .join(" ")
+        .toLowerCase()
+        .includes(normalized);
+    });
+
+    return [...matches].sort((left, right) => {
+      if (sortBy === "difficulty") {
+        return left.difficulty.localeCompare(right.difficulty);
+      }
+
+      if (sortBy === "topic") {
+        return left.topic.localeCompare(right.topic);
+      }
+
+      return left.title.localeCompare(right.title);
+    });
+  })();
+
+  async function createProject() {
+    setSaving(true);
+    setMessage("");
+
+    try {
+      const response = await fetch("http://localhost:8000/api/projects/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          slug: form.title
             .toLowerCase()
-            .includes(query.trim().toLowerCase());
-        const matchesDifficulty =
-          difficulty === "All" || group.difficulty === difficulty;
-        const matchesTopic = topic === "All topics" || group.topic === topic;
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/^-|-$/g, ""),
+          title: form.title,
+          topic: form.topic,
+          difficulty: form.difficulty,
+          description: form.description,
+          status: "draft",
+        }),
+      });
 
-        return {
-          ...group,
-          problems,
-          count: problems.length,
-          hardCount: problems.filter((item) => item.difficulty === "Hard").length,
-          mediumCount: problems.filter((item) =>
-            item.difficulty.includes("Medium"),
-          ).length,
-          easyCount: problems.filter((item) => item.difficulty === "Easy").length,
-          visible: matchesQuery && matchesDifficulty && matchesTopic,
-        };
-      }),
-    [difficulty, query, topic],
-  );
+      if (!response.ok) {
+        throw new Error("Create failed");
+      }
 
-  const visibleGroups = enrichedGroups.filter((group) => group.visible);
-  const visibleProblemsCount = visibleGroups.reduce(
-    (sum, group) => sum + group.count,
-    0,
-  );
+      setMessage("Project created.");
+      setForm({
+        title: "",
+        topic: "",
+        difficulty: "Medium",
+        description: "",
+      });
+      setOpen(false);
+    } catch {
+      setMessage("Backend connection failed. Check Django server on port 8000.");
+    } finally {
+      setSaving(false);
+    }
+  }
 
   return (
     <PageShell>
-      <PageContainer>
-        <header className={ui.headerBorder}>
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-            <div>
-              <div className="flex flex-wrap items-center gap-2">
-                <h1 className="text-2xl font-semibold tracking-[-0.035em]">
+      <PageSection className="pt-5 sm:pt-6">
+        <PageContainer>
+          <section className="space-y-5">
+            <div className="flex flex-col gap-3 border-b border-[var(--color-line)] pb-3 lg:flex-row lg:items-end lg:justify-between">
+              <div className="space-y-3">
+                <p className={ui.overline}>Library</p>
+                <h1 className="text-3xl tracking-[-0.04em] text-[var(--color-text-strong)] sm:text-4xl">
                   Problems
                 </h1>
-                <Badge>{visibleGroups.length} groups</Badge>
-                <Badge>{visibleProblemsCount} problems</Badge>
+                <p className="max-w-3xl text-sm leading-6 text-[var(--color-muted)]">
+                  Searchable and sortable technical case library for a professional global
+                  learning platform.
+                </p>
               </div>
-              <p className="mt-1 text-sm text-[#756b5f]">
-                Browse curated problem groups by topic, level, and tags.
-              </p>
+
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <button type="button" className={ui.buttonPrimary} onClick={() => setOpen(true)}>
+                  Create project
+                </button>
+                <button type="button" className={ui.buttonSecondary}>
+                  Export outline
+                </button>
+              </div>
             </div>
 
-            <div className="flex flex-wrap items-center gap-2">
-              <button type="button" className={ui.buttonSecondary}>
-                Import
-              </button>
-              <button type="button" className={ui.buttonPrimary}>
-                New group
-              </button>
+            <div className="grid gap-3 border border-[var(--color-line)] bg-[var(--color-surface)] p-3 lg:grid-cols-[minmax(0,1fr)_180px_140px] lg:items-end">
+              <div>
+                <label htmlFor="problem-search" className={ui.caption}>
+                  Search
+                </label>
+                <input
+                  id="problem-search"
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder="Title, topic, difficulty, tag"
+                  className={`${ui.input} mt-2`}
+                />
+              </div>
+
+              <div>
+                <label htmlFor="problem-sort" className={ui.caption}>
+                  Sort
+                </label>
+                <select
+                  id="problem-sort"
+                  value={sortBy}
+                  onChange={(event) => setSortBy(event.target.value)}
+                  className={`${ui.input} mt-2`}
+                >
+                  <option value="title">Title</option>
+                  <option value="topic">Topic</option>
+                  <option value="difficulty">Difficulty</option>
+                </select>
+              </div>
+
+              <div className="border border-[var(--color-line-soft)] bg-[var(--color-surface-soft)] px-3 py-2 text-sm text-[var(--color-muted)]">
+                {filteredProblems.length} result{filteredProblems.length === 1 ? "" : "s"}
+              </div>
             </div>
-          </div>
 
-          <div className="mt-5 grid gap-2 md:grid-cols-[minmax(0,1fr)_180px_220px_auto]">
-            <div className="relative">
-              <input
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder="Search groups, problems, topics, tags..."
-                className={ui.searchInput}
-              />
-              <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-[#8f8579]">
-                ⌕
-              </span>
-            </div>
-
-            <select
-              value={difficulty}
-              onChange={(event) => setDifficulty(event.target.value)}
-              className={ui.input}
-            >
-              {difficultyOptions.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-
-            <select
-              value={topic}
-              onChange={(event) => setTopic(event.target.value)}
-              className={ui.input}
-            >
-              {topics.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-
-            <button
-              type="button"
-              onClick={() => {
-                setQuery("");
-                setDifficulty("All");
-                setTopic("All topics");
-              }}
-              className={`${ui.buttonSecondary} text-[#756b5f] hover:text-[#17231d]`}
-            >
-              Reset
-            </button>
-          </div>
-        </header>
-
-        <section className="py-5">
-          {visibleGroups.length > 0 ? (
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-              {visibleGroups.map((group) => (
-                <GroupCard key={group.slug} group={group} />
+            <div className="grid gap-3">
+              {filteredProblems.map((problem, index) => (
+                <ProblemDetailCard key={problem.id} index={index} problem={problem} />
               ))}
             </div>
-          ) : (
-            <EmptyState
-              title="No problem groups found"
-              description="Try changing the search query, topic, or difficulty filter."
-            />
-          )}
-        </section>
-      </PageContainer>
+          </section>
+
+          <ProjectCreateModal
+            open={open}
+            form={form}
+            message={message}
+            saving={saving}
+            onClose={() => setOpen(false)}
+            onSubmit={createProject}
+            onChange={(field, value) => setForm((current) => ({ ...current, [field]: value }))}
+          />
+        </PageContainer>
+      </PageSection>
     </PageShell>
   );
 }

@@ -1,9 +1,11 @@
+import Link from "next/link";
 import { ui } from "@/components/ui/styles";
 
 type ProblemDetailCardProps = {
   index: number;
   problem: {
     id: string | number;
+    group?: string;
     title: string;
     topic: string;
     difficulty: string;
@@ -17,41 +19,52 @@ export function ProblemDetailCard({
   index,
   problem,
 }: ProblemDetailCardProps) {
-  return (
-    <article className={`${ui.flatCard} group flex h-full flex-col p-4 lg:p-4`}>
-      <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0 space-y-2">
-          <div className="flex flex-wrap items-center gap-2 text-[10px] font-light uppercase tracking-[0.18em] text-stone-400">
-            <span className="font-medium tabular-nums text-stone-900">
-              #{String(index + 1).padStart(2, "0")}
-            </span>
-            <span className="text-stone-200">/</span>
-            <span>{problem.topic}</span>
-            <span className="text-stone-200">/</span>
-            <span className="font-normal text-stone-600">{problem.difficulty}</span>
-          </div>
-
-          <h2 className="line-clamp-2 text-[15px] font-medium leading-5 tracking-[-0.02em] text-stone-900 transition-colors group-hover:text-stone-700">
-            {problem.title}
-          </h2>
-        </div>
-
-        <span className="shrink-0 rounded-md bg-stone-50 px-2 py-1 text-[10px] font-light tabular-nums text-stone-500">
-          {problem.duration}
-        </span>
+  const content = (
+    <article className={`${ui.cardInteractive} grid h-full gap-4 p-4 lg:grid-cols-[80px_minmax(0,220px)_160px_minmax(0,1fr)_140px] lg:items-start`}>
+      <div className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-muted)]">
+        #{String(index + 1).padStart(2, "0")}
       </div>
 
-      <p className="mt-3 line-clamp-3 text-[11px] leading-[1.55] font-light text-stone-500">
-        {problem.summary}
-      </p>
+      <div>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[var(--color-muted)]">
+          Topic
+        </p>
+        <p className="mt-1 text-sm font-medium text-[var(--color-text-strong)]">{problem.topic}</p>
+      </div>
 
-      <div className="mt-4 flex flex-wrap gap-1.5 border-t border-stone-100 pt-3">
-        {problem.tags.map((tag) => (
-          <span key={tag} className={ui.microBadge}>
-            {tag}
-          </span>
-        ))}
+      <div>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[var(--color-muted)]">
+          Difficulty
+        </p>
+        <p className="mt-1 text-sm font-medium text-[var(--color-text-strong)]">{problem.difficulty}</p>
+      </div>
+
+      <div>
+        <h2 className="text-base font-semibold tracking-[-0.02em] text-[var(--color-text-strong)]">
+          {problem.title}
+        </h2>
+        <p className="mt-2 text-sm leading-6 text-[var(--color-muted)]">{problem.summary}</p>
+        <div className="mt-3 flex flex-wrap gap-2">
+          {problem.tags.map((tag) => (
+            <span key={tag} className={ui.microBadge}>
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[var(--color-muted)]">
+          Duration
+        </p>
+        <p className="mt-1 text-sm font-medium text-[var(--color-text-strong)]">{problem.duration}</p>
       </div>
     </article>
   );
+
+  if (!problem.group) {
+    return content;
+  }
+
+  return <Link href={`/problems/${problem.group}`}>{content}</Link>;
 }

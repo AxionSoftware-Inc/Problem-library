@@ -1,28 +1,64 @@
 export const ui = {
-  page: "min-h-screen bg-[#f7f4ee] text-[#17231d]",
-  pageAlt: "min-h-screen bg-[#f6f2ea] text-[#151f1a]",
-  container: "mx-auto max-w-[1540px] px-5 py-5 sm:px-7 lg:px-8",
-  headerBorder: "border-b border-[#ddd4c6] pb-4",
-  sectionBorder: "border-b border-stone-100 bg-white",
-  subtleSection: "bg-stone-50/30",
-  card: "rounded-2xl border border-[#ddd4c6] bg-white shadow-[0_14px_36px_rgba(43,36,28,0.045)]",
-  softCard: "rounded-xl border border-[#eee7dc] bg-[#fbf8f2]",
-  flatCard:
-    "rounded-xl border border-stone-200/80 bg-white transition-colors hover:border-stone-300",
-  badge:
-    "rounded-full border border-[#e2d8c9] bg-[#fbf8f2] px-2.5 py-1 text-xs font-medium text-[#756b5f]",
-  microBadge:
-    "rounded-sm border border-stone-200/70 bg-stone-50 px-1.5 py-0.5 text-[9px] font-light uppercase tracking-[0.16em] text-stone-500",
-  input:
-    "h-11 rounded-xl border border-[#d7ccbb] bg-white px-3 text-sm font-medium outline-none focus:border-[#9b7650] focus:ring-4 focus:ring-[#9b7650]/10",
-  searchInput:
-    "h-11 w-full rounded-xl border border-[#d7ccbb] bg-white px-3 pl-9 text-sm outline-none transition placeholder:text-[#a1978b] focus:border-[#9b7650] focus:ring-4 focus:ring-[#9b7650]/10",
-  buttonSecondary:
-    "h-10 rounded-xl border border-[#d7ccbb] bg-white px-3 text-sm font-medium text-[#17231d] transition hover:bg-[#f3eee6]",
-  buttonPrimary:
-    "h-10 rounded-xl bg-[#17231d] px-4 text-sm font-semibold text-white transition hover:bg-[#24362d]",
+  page: "relative min-h-screen bg-[var(--color-bg)] text-[var(--color-text)]",
+  pageAlt: "relative min-h-screen bg-[var(--color-bg)] text-[var(--color-text)]",
+  container: "mx-auto w-full max-w-[1520px] px-3 sm:px-4 lg:px-5",
+  pageSection: "py-5 sm:py-6 lg:py-8",
+  sectionGap: "space-y-4 sm:space-y-5",
+  sectionHeader: "max-w-4xl space-y-2",
   overline:
-    "text-[10px] font-light uppercase tracking-[0.2em] text-stone-400",
-  mutedText: "text-xs leading-relaxed font-light text-stone-500",
-  title: "text-2xl font-medium tracking-tight text-stone-900",
+    "text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--color-muted)]",
+  titleHero:
+    "text-4xl leading-tight tracking-[-0.05em] text-[var(--color-text-strong)] sm:text-5xl lg:text-6xl",
+  titlePage:
+    "text-3xl leading-tight tracking-[-0.04em] text-[var(--color-text-strong)] sm:text-4xl",
+  titleSection:
+    "text-2xl leading-tight tracking-[-0.03em] text-[var(--color-text-strong)] sm:text-[28px]",
+  titleCard: "text-lg font-semibold tracking-[-0.02em] text-[var(--color-text-strong)]",
+  lead: "text-base leading-7 text-[var(--color-muted)]",
+  body: "text-sm leading-6 text-[var(--color-muted)] sm:text-[15px]",
+  caption:
+    "text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--color-muted)]",
+  heroSurface:
+    "relative rounded-[var(--radius-hero)] border border-[var(--color-line)] bg-[var(--color-surface)] shadow-[var(--shadow-hero)]",
+  panel:
+    "rounded-[var(--radius-panel)] border border-[var(--color-line)] bg-[var(--color-surface)] shadow-[var(--shadow-panel)]",
+  panelSoft:
+    "rounded-[var(--radius-panel)] border border-[var(--color-line-soft)] bg-[var(--color-surface-soft)] shadow-[var(--shadow-soft)]",
+  panelMuted:
+    "rounded-[var(--radius-panel)] border border-[var(--color-line-soft)] bg-white",
+  cardInteractive:
+    "group rounded-[var(--radius-panel)] border border-[var(--color-line)] bg-[var(--color-surface)] shadow-[var(--shadow-soft)] transition-colors duration-150 hover:border-[var(--color-line-strong)]",
+  glassBar:
+    "border-b border-[var(--color-line)] bg-[rgba(243,246,250,0.98)]",
+  badge:
+    "inline-flex items-center rounded-md border border-[var(--color-line-soft)] bg-white px-2 py-1 text-[11px] font-medium text-[var(--color-muted)]",
+  microBadge:
+    "inline-flex items-center rounded-md border border-[var(--color-line-soft)] bg-[var(--color-surface-soft)] px-2 py-1 text-[10px] font-medium uppercase tracking-[0.08em] text-[var(--color-muted)]",
+  statTile:
+    "rounded-[10px] border border-[var(--color-line-soft)] bg-white p-4 shadow-[var(--shadow-soft)]",
+  metricTile:
+    "rounded-[10px] border border-[var(--color-line-soft)] bg-[var(--color-surface-soft)] p-4",
+  buttonPrimary:
+    "inline-flex h-10 items-center justify-center rounded-md border border-[var(--color-accent-strong)] bg-[var(--color-accent)] px-4 text-sm font-semibold text-white transition hover:bg-[#1d4ed8]",
+  buttonSecondary:
+    "inline-flex h-10 items-center justify-center rounded-md border border-[var(--color-line-strong)] bg-white px-4 text-sm font-semibold text-[var(--color-text)] transition hover:bg-[var(--color-surface-soft)]",
+  buttonGhost:
+    "inline-flex h-10 items-center justify-center rounded-md border border-transparent px-3 text-sm font-semibold text-[var(--color-text)] transition hover:bg-[var(--color-surface-soft)]",
+  input:
+    "h-10 w-full rounded-md border border-[var(--color-line-strong)] bg-white px-3 text-sm text-[var(--color-text-strong)] outline-none transition placeholder:text-[var(--color-muted)]/75 focus:border-[var(--color-accent-strong)] focus:ring-2 focus:ring-[var(--color-accent)]/15",
+  textarea:
+    "w-full rounded-md border border-[var(--color-line-strong)] bg-white px-3 py-3 text-sm text-[var(--color-text-strong)] outline-none transition placeholder:text-[var(--color-muted)]/75 focus:border-[var(--color-accent-strong)] focus:ring-2 focus:ring-[var(--color-accent)]/15",
+  navLink:
+    "rounded-md px-3 py-2 text-sm font-medium text-[var(--color-muted)] transition hover:bg-white hover:text-[var(--color-text-strong)]",
+  navLinkActive:
+    "rounded-md bg-white px-3 py-2 text-sm font-semibold text-[var(--color-text-strong)] shadow-[var(--shadow-soft)]",
+  modalOverlay:
+    "fixed inset-0 z-50 flex items-center justify-center bg-[rgba(18,29,24,0.45)] px-4",
+  modalCard:
+    "w-full max-w-2xl rounded-[14px] border border-[var(--color-line)] bg-white p-6 shadow-[0_12px_32px_rgba(15,23,42,0.12)] sm:p-8",
+  appHeader:
+    "grid gap-4 rounded-[var(--radius-hero)] border border-[var(--color-line)] bg-[var(--color-surface)] p-4 shadow-[var(--shadow-panel)] lg:grid-cols-[1.25fr_0.75fr] lg:p-5",
+  sectionStack: "grid gap-4 lg:gap-5",
+  codePanel:
+    "overflow-hidden rounded-[var(--radius-panel)] border border-[rgba(255,255,255,0.09)] bg-[#0f172a] text-stone-100 shadow-[0_8px_20px_rgba(15,23,42,0.18)]",
 };

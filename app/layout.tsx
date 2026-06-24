@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Manrope, Space_Grotesk } from "next/font/google";
+import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
 import "./globals.css";
 
@@ -19,9 +20,9 @@ const displayFont = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Roadmap Problem Library",
+  title: "Problem Library | Engineering Learning Platform",
   description:
-    "A professional problems library with structured progression and real-world problem solving.",
+    "Bitta muammoni chuqur o‘rganish uchun markazlashgan design system va komponentli arxitekturaga ega engineering learning platform.",
 };
 
 export default function RootLayout({
@@ -30,12 +31,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="uz">
       <body
         className={`${bodyFont.variable} ${displayFont.variable} ${geistMono.variable} antialiased`}
       >
-        <Navbar />
-        {children}
+        <div className="relative flex min-h-screen flex-col">
+          <Navbar />
+          <div className="flex-1">{children}</div>
+          <Footer />
+        </div>
       </body>
     </html>
   );

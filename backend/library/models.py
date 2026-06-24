@@ -7,6 +7,7 @@ class ProblemGroup(models.Model):
     topic = models.CharField(max_length=255)
     difficulty = models.CharField(max_length=100)
     description = models.TextField()
+    is_featured = models.BooleanField(default=False)
 
     class Meta:
         ordering = ["title"]
@@ -29,9 +30,31 @@ class Problem(models.Model):
     duration = models.CharField(max_length=50)
     summary = models.TextField()
     tags = models.JSONField(default=list)
+    formulas = models.JSONField(default=list)
+    calculations = models.JSONField(default=list)
+    graphs = models.JSONField(default=dict)
+    code_samples = models.JSONField(default=list)
+    notes = models.JSONField(default=list)
 
     class Meta:
         ordering = ["external_id"]
+
+    def __str__(self) -> str:
+        return self.title
+
+
+class Project(models.Model):
+    slug = models.SlugField(unique=True)
+    title = models.CharField(max_length=255)
+    topic = models.CharField(max_length=255)
+    difficulty = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
+    status = models.CharField(max_length=50, default="draft")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["-created_at"]
 
     def __str__(self) -> str:
         return self.title

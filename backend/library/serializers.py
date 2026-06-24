@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Problem, ProblemGroup
+from .models import Problem, ProblemGroup, Project
 
 
 class ProblemSerializer(serializers.ModelSerializer):
@@ -16,6 +16,11 @@ class ProblemSerializer(serializers.ModelSerializer):
             "duration",
             "summary",
             "tags",
+            "formulas",
+            "calculations",
+            "graphs",
+            "code_samples",
+            "notes",
         ]
 
 
@@ -55,3 +60,19 @@ class ProblemGroupDetailSerializer(ProblemGroupListSerializer):
 
     class Meta(ProblemGroupListSerializer.Meta):
         fields = ProblemGroupListSerializer.Meta.fields + ["problems"]
+
+
+class ProjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Project
+        fields = [
+            "id",
+            "slug",
+            "title",
+            "topic",
+            "difficulty",
+            "description",
+            "status",
+            "created_at",
+            "updated_at",
+        ]

@@ -44,6 +44,17 @@ GROUPS = [
         "description": (
             "State-driven problems that reward careful transitions and reusable subproblem design."
         ),
+        "is_featured": False,
+    },
+    {
+        "slug": "led-design",
+        "title": "LED Design",
+        "difficulty": "Medium",
+        "topic": "Electronics, power, thermal design",
+        "description": (
+            "A deep engineering case for designing a safe, efficient LED circuit with formulas, calculations, and charts."
+        ),
+        "is_featured": True,
     },
 ]
 
@@ -52,7 +63,7 @@ class Command(BaseCommand):
     help = "Seed problem groups and problems from the frontend JSON file."
 
     def handle(self, *args, **options):
-        data_path = Path(__file__).resolve().parents[4] / "app" / "problems" / "problems.json"
+        data_path = Path(__file__).resolve().parents[4] / "app" / "problems" / "problem-data.json"
         payload = json.loads(data_path.read_text())
 
         Problem.objects.all().delete()
@@ -63,9 +74,9 @@ class Command(BaseCommand):
             group = ProblemGroup.objects.create(**group_data)
             groups[group.slug] = group
 
-        for item in payload:
+        for item in payload["problems"]:
             Problem.objects.create(
-                group=groups[item["group"]],
+                group=groups[payload["meta"]["group"]],
                 external_id=item["id"],
                 title=item["title"],
                 slug=item["slug"],
@@ -74,6 +85,11 @@ class Command(BaseCommand):
                 duration=item["duration"],
                 summary=item["summary"],
                 tags=item["tags"],
+                formulas=item.get("formulas", []),
+                calculations=item.get("calculations", []),
+                graphs=item.get("graphs", {}),
+                code_samples=item.get("codeSamples", []),
+                notes=item.get("notes", []),
             )
 
         self.stdout.write(

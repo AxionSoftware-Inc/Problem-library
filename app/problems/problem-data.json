@@ -1,0 +1,79 @@
+{
+  "meta": {
+    "group": "led-design"
+  },
+  "problems": [
+    {
+      "id": 1,
+      "title": "LED Design",
+      "slug": "led-design",
+      "group": "led-design",
+      "topic": "Elektronika",
+      "difficulty": "Medium",
+      "duration": "28 min",
+      "summary": "Ketma-ket rezistor, issiqlik tekshiruvi va tok boshqaruvi bilan barqaror LED sxemasi yarating.",
+      "tags": ["electronics", "ohm", "thermal"],
+      "formulas": [
+        {
+          "label": "Om qonuni",
+          "expression": "V = I × R",
+          "meaning": "Ortiqcha kuchlanishni yutadigan ketma-ket rezistorni tanlashda ishlatiladi."
+        },
+        {
+          "label": "LED rezistori",
+          "expression": "R = (V_s - V_f) / I_f",
+          "meaning": "Manba kuchlanishi, LED oldinga kuchlanishi va kerakli tokdan rezistor hisoblanadi."
+        },
+        {
+          "label": "Rezistor quvvati",
+          "expression": "P_R = I_f^2 × R",
+          "meaning": "Rezistor korpusi issiqlikni xavfsiz tarqata olishini tekshiradi."
+        }
+      ],
+      "calculations": [
+        {
+          "title": "5 V shinaldan bitta qizil LED",
+          "inputs": {
+            "Manba kuchlanishi": "5.0 V",
+            "LED oldinga kuchlanishi": "2.0 V",
+            "Maqsad tok": "20 mA"
+          },
+          "formula": "R = (5.0 - 2.0) / 0.020",
+          "result": "150 Ω",
+          "note": "150 Ω rezistor nominal sharoitda taxminan 20 mA tok beradi."
+        }
+      ],
+      "graphs": {
+        "title": "Tok va manba kuchlanishi",
+        "description": "Bu egri chiziq ketma-ket rezistor LED’ni qanday himoya qilishini ko‘rsatadi.",
+        "xLabel": "Manba kuchlanishi (V)",
+        "yLabel": "LED toki (mA)",
+        "series": [
+          {
+            "name": "150 Ω yechim",
+            "color": "#c5762d",
+            "points": [
+              { "x": 2.2, "y": 1.3 },
+              { "x": 3.0, "y": 6.7 },
+              { "x": 4.0, "y": 13.3 },
+              { "x": 5.0, "y": 20.0 },
+              { "x": 6.0, "y": 26.7 }
+            ]
+          }
+        ]
+      },
+      "codeSamples": [
+        {
+          "language": "TypeScript",
+          "filename": "ledCalculator.ts",
+          "summary": "Ketma-ket rezistor va issiqlik yuklamasini hisoblaydigan qayta ishlatiladigan funksiya.",
+          "code": "export function ledSeriesResistor(supplyVoltage, forwardVoltage, targetCurrentMa) {\n  const current = targetCurrentMa / 1000;\n  const resistance = (supplyVoltage - forwardVoltage) / current;\n  const resistorPower = current * current * resistance;\n\n  return {\n    resistanceOhms: Math.round(resistance),\n    resistorPowerWatts: Number(resistorPower.toFixed(3)),\n  };\n}\n",
+          "output": "{\n  resistanceOhms: 150,\n  resistorPowerWatts: 0.06\n}"
+        }
+      ],
+      "notes": [
+        "Haqiqiy mahsulotlarda LED binning va harorat drift’i alohida hisobga olinadi."
+      ]
+    }
+  ]
+}

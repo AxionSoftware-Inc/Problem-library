@@ -14,3 +14,13 @@ export function PageShell({
 export function PageContainer({ children }: { children: ReactNode }) {
   return <div className={ui.container}>{children}</div>;
 }
+
+export function PageSection({
+  children,
+  className = "",
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return <section className={`${ui.pageSection} ${className}`.trim()}>{children}</section>;
+}

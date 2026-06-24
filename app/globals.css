@@ -1,19 +1,30 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #f4efe4;
-  --surface: #fcfaf4;
-  --panel: rgba(255, 252, 245, 0.88);
-  --text: #173228;
-  --muted: #5f6f67;
-  --accent: #c5762d;
-  --accent-soft: #f0dfbe;
-  --accent-deep: #8f541d;
+  --color-bg: #f3f6fa;
+  --color-surface: #ffffff;
+  --color-surface-soft: #f7f9fc;
+  --color-surface-strong: #ffffff;
+  --color-text: #1f2937;
+  --color-text-strong: #0f172a;
+  --color-muted: #5b6678;
+  --color-accent: #2563eb;
+  --color-accent-soft: #dbeafe;
+  --color-accent-strong: #1d4ed8;
+  --color-success: #0f766e;
+  --color-line: rgba(148, 163, 184, 0.34);
+  --color-line-soft: rgba(148, 163, 184, 0.22);
+  --color-line-strong: rgba(100, 116, 139, 0.56);
+  --shadow-hero: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --shadow-panel: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-soft: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --radius-hero: 16px;
+  --radius-panel: 12px;
 }
 
 @theme inline {
-  --color-background: var(--bg);
-  --color-foreground: var(--text);
+  --color-background: var(--color-bg);
+  --color-foreground: var(--color-text);
   --font-sans: var(--font-body);
   --font-display: var(--font-display);
   --font-mono: var(--font-geist-mono);
@@ -29,8 +40,9 @@ html {
 
 body {
   margin: 0;
-  background: var(--bg);
-  color: var(--text);
+  min-height: 100vh;
+  background: #f3f6fa;
+  color: var(--color-text);
   font-family: var(--font-body), sans-serif;
 }
 
@@ -39,7 +51,14 @@ a {
   text-decoration: none;
 }
 
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
 ::selection {
-  background: rgba(197, 118, 45, 0.18);
-  color: var(--text);
+  background: rgba(37, 99, 235, 0.16);
+  color: var(--color-text-strong);
 }

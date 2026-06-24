@@ -3,15 +3,16 @@ from rest_framework import filters, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from .models import Problem, ProblemGroup
+from .models import Problem, ProblemGroup, Project
 from .serializers import (
     ProblemGroupDetailSerializer,
     ProblemGroupListSerializer,
     ProblemSerializer,
+    ProjectSerializer,
 )
 
 
-class ProblemGroupViewSet(viewsets.ReadOnlyModelViewSet):
+class ProblemGroupViewSet(viewsets.ModelViewSet):
     queryset = ProblemGroup.objects.all().prefetch_related("problems")
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ["title", "topic", "description", "problems__title", "problems__tags"]
@@ -63,3 +64,31 @@ class ProblemViewSet(viewsets.ReadOnlyModelViewSet):
         if topic:
             queryset = queryset.filter(topic__iexact=topic)
         return queryset
+
+
+class ProjectViewSet(viewsets.ModelViewSet):
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ["title", "topic", "description", "status"]
+    ordering_fields = ["created_at", "title", "difficulty", "status"]
+    lookup_field = "slug"
+
+
+def overview(request):
+    payload = {
+        "name": "Problem Library API",
+        "status": "ok",
+        "models": {
+            "groups": ProblemGroup.objects.count(),
+            "problems": Problem.objects.count(),
+            "projects": Project.objects.count(),
+        },
+        "endpoints": [
+            "/api/problem-groups/",
+            "/api/problem-groups/stats/",
+            "/api/problems/",
+            "/api/projects/",
+        ],
+    }
+    return Response(payload)

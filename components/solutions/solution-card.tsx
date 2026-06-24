@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ui } from "@/components/ui/styles";
 
 type Solution = {
   id: string | number;
@@ -9,6 +10,7 @@ type Solution = {
   duration: string;
   tags: string[];
   groupTitle: string;
+  groupSlug: string;
   status: string;
   accuracy: number;
   steps: number;
@@ -17,77 +19,43 @@ type Solution = {
 
 export function SolutionCard({ solution }: { solution: Solution }) {
   return (
-    <Link
-      href={`/solutions/${solution.id}`}
-      className="group flex flex-col justify-between p-4 bg-white border border-stone-100 transition-all duration-300 hover:border-stone-300 hover:shadow-[0_8px_24px_rgb(0,0,0,0.02)] rounded-sm min-h-[220px]"
-    >
-      {/* Yuqori qism: Status, Fan va Toʻplam nomi */}
+    <Link href={`/problems/${solution.groupSlug}`} className={`${ui.cardInteractive} flex min-h-[240px] flex-col justify-between p-5`}>
       <div>
-        <div className="flex items-center justify-between text-[10px] uppercase tracking-widest text-stone-400 font-light">
-          <div className="flex items-center gap-1.5">
+        <div className="flex items-center justify-between gap-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--color-muted)]">
+          <div className="flex flex-wrap items-center gap-2">
             <StatusDot status={solution.status} />
             <span>{solution.topic}</span>
-            <span className="text-stone-200">/</span>
-            <span className="text-stone-600 font-medium truncate max-w-[120px]">{solution.groupTitle}</span>
+            <span>{solution.groupTitle}</span>
           </div>
-          <span className="tabular-nums font-medium text-stone-900 text-xs">{solution.accuracy}% score</span>
+          <span>{solution.accuracy}% score</span>
         </div>
 
-        {/* Sarlavha */}
-        <h2 className="mt-2.5 text-sm font-medium tracking-tight text-stone-900 group-hover:text-stone-600 transition-colors line-clamp-1">
+        <h2 className="mt-4 text-xl font-semibold tracking-[-0.03em] text-[var(--color-text-strong)]">
           {solution.title}
         </h2>
+        <p className="mt-3 text-sm leading-7 text-[var(--color-muted)]">{solution.summary}</p>
+      </div>
 
-        {/* Qisqa Tavsif */}
-        <p className="mt-1.5 line-clamp-2 text-xs leading-relaxed text-stone-400 font-light">
-          {solution.summary}
-        </p>
-
-        {/* Teglar (Tags) - Kichik va yengil */}
-        <div className="mt-3 flex flex-wrap gap-1">
+      <div className="mt-5 space-y-4 border-t border-[var(--color-line-soft)] pt-4">
+        <div className="flex flex-wrap gap-2">
           {solution.tags.slice(0, 3).map((tag) => (
-            <span 
-              key={tag} 
-              className="px-1.5 py-0.5 bg-stone-50 text-stone-500 rounded-sm text-[9px] font-light tracking-wide uppercase border border-stone-100/50"
-            >
-              #{tag}
+            <span key={tag} className={ui.microBadge}>
+              {tag}
             </span>
           ))}
         </div>
-      </div>
-
-      {/* Pastki qism: Metrikalar va Yangilanish vaqti */}
-      <div className="mt-4 flex items-end justify-between border-t border-stone-50 pt-3">
-        {/* Metrikalar - Zich va bir qatorda */}
-        <div className="flex items-center gap-4 text-[11px] tabular-nums text-stone-500">
-          <div>
-            <span className="text-stone-400 font-light">Steps:</span>{" "}
-            <span className="font-medium text-stone-700">{solution.steps}</span>
-          </div>
-          <div>
-            <span className="text-stone-400 font-light">Level:</span>{" "}
-            <span className="font-medium text-stone-700">{solution.difficulty}</span>
-          </div>
-          <div>
-            <span className="text-stone-400 font-light">Time:</span>{" "}
-            <span className="font-medium text-stone-700">{solution.duration}</span>
-          </div>
-        </div>
-
-        {/* Sana yoki Yoʻnalish oʻqi */}
-        <div className="flex items-center gap-2 text-[10px] text-stone-400 font-light">
-          <span className="hidden sm:inline">Upd. {solution.updated}</span>
-          <span className="text-stone-400 transform transition-transform duration-300 group-hover:translate-x-0.5 group-hover:text-stone-900 text-xs shrink-0">
-            →
-          </span>
+        <div className="flex flex-wrap items-center justify-between gap-3 text-sm text-[var(--color-muted)]">
+          <span>{solution.steps} steps</span>
+          <span>{solution.difficulty}</span>
+          <span>{solution.duration}</span>
+          <span>Upd. {solution.updated}</span>
         </div>
       </div>
     </Link>
   );
 }
 
-{/* Katta nishonlar (badge) oʻrniga oʻta ixcham premium status nuqtasi */}
-export function StatusDot({ status }: { status: string }) {
+function StatusDot({ status }: { status: string }) {
   const dotColor =
     status === "Verified"
       ? "bg-emerald-500"
@@ -96,9 +64,9 @@ export function StatusDot({ status }: { status: string }) {
         : "bg-rose-500";
 
   return (
-    <div className="flex items-center gap-1.5 pr-1">
-      <span className={`w-1.5 h-1.5 rounded-full ${dotColor}`} />
-      <span className="text-stone-600 font-normal">{status}</span>
-    </div>
+    <span className="inline-flex items-center gap-2">
+      <span className={`h-2.5 w-2.5 rounded-full ${dotColor}`} />
+      <span>{status}</span>
+    </span>
   );
 }
