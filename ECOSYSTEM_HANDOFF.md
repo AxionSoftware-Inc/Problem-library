@@ -5,7 +5,7 @@ Base: `main` at `eb95d700e1b4f9e2e36402219c73bc0595feb4e0`
 
 ## Role
 
-This repository currently has the legacy name `Problem-library`. For ecosystem-v1 it becomes the canonical **Science Hub + Platform Core** repository while continuing to expose problem/example discovery.
+This repository currently has the legacy name `Problem-library`. For ecosystem-v1 it acts as the **Science Hub + canonical ecosystem contract owner** while continuing to expose problem/example discovery.
 
 The repository may be renamed later. Product contracts must not depend on the repository name.
 
@@ -26,7 +26,7 @@ Writer can start a draft from it
 
 Until this flow is stable, do **not** add new authentication systems, sync engines, job queues, collaboration infrastructure, remote execution orchestration, billing gates, or complex reference graphs.
 
-The Django Platform Core is an optional future sync/share boundary. It must not become a prerequisite for ordinary local work.
+There is intentionally no new shared backend in this milestone. Existing application backends remain untouched unless a current frontend consumer requires a migration.
 
 ## Science Hub responsibilities
 
@@ -38,32 +38,31 @@ User-facing:
 - Explore / Problems / Examples;
 - later public/share entry surfaces.
 
-Backend/core, only when needed:
+Contract ownership:
 
-- shared Project identity;
-- Scientific Objects;
-- object revisions;
-- references and artifacts;
-- later authentication, permissions, sync/share/search metadata.
+- Project identity semantics;
+- Scientific Object shape;
+- local object/revision storage contract;
+- ecosystem app navigation contract;
+- later, only if needed, sync/share protocol semantics.
 
 ## Explicit non-responsibilities
 
-Platform Core is **not** the mathematics/physics compute backend. It does not need SymPy workers, GPU servers or HPC infrastructure for the product to function.
+Science Hub is **not** the mathematics/physics compute backend. It does not need SymPy workers, GPU servers or HPC infrastructure for the product to function.
 
 Normal compute belongs on the user's device or on an explicitly selected external execution target.
 
-## Legacy migration
+## Legacy backend boundary
 
-`backend/library/models.py` currently contains a simple `Project` model. This is a legacy library-domain model and must not become the ecosystem Project definition.
+`backend/library/models.py` contains legacy library-domain models. Keep them working for the current Problem Library pages, but do not use them as a reason to build a new cross-app server model now.
 
-Canonical Project identity for the optional server layer lives in `backend/platform_core/models.py`. Local-first Project identity is allowed to exist entirely in the browser during this milestone.
-
-During migration:
+During this milestone:
 
 - existing problem pages may continue using `library` models;
-- new ecosystem work must not create dependencies on `library.Project`;
+- new ecosystem work uses browser-local Project IDs and Scientific Objects;
 - do not migrate data merely to satisfy architecture diagrams;
-- do not delete legacy backend code until its frontend consumer has moved away from it.
+- do not delete legacy backend code until its frontend consumer has moved away from it;
+- do not add a new `platform_core` Django app yet.
 
 The tracked SQLite database and Python cache files are development artifacts; clean them from source control in a later hygiene pass after the product flow is stable.
 
@@ -73,22 +72,13 @@ The tracked SQLite database and Python cache files are development artifacts; cl
 - `docs/SCIENTIFIC_OBJECT_SPEC.md`
 - `lib/ecosystem/contracts.ts`
 
-If another repository disagrees with these semantics, update the architecture here first or record an explicit ADR.
+These documents describe direction, not a requirement to implement every layer immediately. If another repository disagrees with the core object semantics, update the architecture here first or record an explicit ADR.
 
-## Optional Platform API
+## Server rule
 
-An initial shared API exists under:
+No shared Platform API is implemented in this milestone.
 
-```text
-/api/platform/projects/
-/api/platform/objects/
-/api/platform/revisions/
-/api/platform/references/
-/api/platform/artifacts/
-/api/platform/activity/
-```
-
-It is **not required** for the current local-first milestone. Do not expand it until a concrete sync/share requirement appears.
+If sync/share/auth later becomes a real user requirement, add the smallest server boundary needed at that time and keep the local object contract unchanged. Do not pre-build endpoints for hypothetical future infrastructure.
 
 ## Near-term implementation order
 
