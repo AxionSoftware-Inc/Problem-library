@@ -35,8 +35,7 @@ export default function ProjectsPage() {
     setShowCreate(false);
     refresh();
 
-    const mathHref = getEcosystemHref("math", "science", project.id);
-    if (mathHref !== "#") window.location.assign(mathHref);
+    window.location.assign(getEcosystemHref("math", "science", project.id));
   };
 
   return (
@@ -50,7 +49,7 @@ export default function ProjectsPage() {
                 One place for the whole research trail.
               </h1>
               <p className="mt-5 max-w-2xl text-sm leading-7 text-[var(--color-muted)] sm:text-base">
-                Start locally. A Project carries the same identity through computation, notebook reasoning, and publication. Cloud sync is optional infrastructure, not a requirement to begin working.
+                Start locally. A Project carries the same context through computation, notebook reasoning, and publication. Cloud sync is not required to begin working.
               </p>
 
               <div className="mt-7 flex flex-wrap gap-3">
@@ -66,11 +65,11 @@ export default function ProjectsPage() {
             </section>
 
             <aside className="border-l border-[var(--color-line)] pl-0 lg:pl-7">
-              <p className={ui.overline}>Execution philosophy</p>
+              <p className={ui.overline}>How it works</p>
               <div className="mt-4 space-y-4 text-sm leading-6 text-[var(--color-muted)]">
                 <p><span className="font-semibold text-[var(--color-text-strong)]">Local first.</span> Ordinary computation stays on the user device whenever practical.</p>
-                <p><span className="font-semibold text-[var(--color-text-strong)]">Object native.</span> Results move between tools by reference, not manual export/import loops.</p>
-                <p><span className="font-semibold text-[var(--color-text-strong)]">Open exit.</span> Standard formats remain part of the product contract.</p>
+                <p><span className="font-semibold text-[var(--color-text-strong)]">Save once.</span> Keep a result with its Project, then reuse it in the next tool instead of rebuilding context.</p>
+                <p><span className="font-semibold text-[var(--color-text-strong)]">Open exit.</span> Standard formats remain part of the product direction.</p>
               </div>
             </aside>
           </div>
@@ -99,7 +98,7 @@ export default function ProjectsPage() {
           {!hasProjects ? (
             <div className="border-y border-[var(--color-line)] py-14 text-center">
               <p className="text-lg font-semibold tracking-[-0.02em] text-[var(--color-text-strong)]">No project yet.</p>
-              <p className="mx-auto mt-2 max-w-lg text-sm leading-6 text-[var(--color-muted)]">Create one without signing in. The first project stays on this device until sync is enabled.</p>
+              <p className="mx-auto mt-2 max-w-lg text-sm leading-6 text-[var(--color-muted)]">Create one without signing in. The first project stays on this device.</p>
               <button type="button" onClick={() => setShowCreate(true)} className={`${ui.buttonPrimary} mt-5`}>Create first project</button>
             </div>
           ) : (
