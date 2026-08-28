@@ -7,6 +7,7 @@ export interface LocalScienceProject {
 }
 
 const STORAGE_KEY = "axion.science.projects.v1";
+const ACTIVE_PROJECT_KEY = "axion.science.active-project.v1";
 
 function canUseBrowserStorage() {
   return typeof window !== "undefined" && typeof window.localStorage !== "undefined";
@@ -52,11 +53,15 @@ export function createLocalProject(title: string, description = ""): LocalScienc
   };
 
   writeProjects([project, ...listLocalProjects()]);
+  window.localStorage.setItem(ACTIVE_PROJECT_KEY, project.id);
   return project;
 }
 
 export function deleteLocalProject(id: string) {
   writeProjects(listLocalProjects().filter((project) => project.id !== id));
+  if (canUseBrowserStorage() && window.localStorage.getItem(ACTIVE_PROJECT_KEY) === id) {
+    window.localStorage.removeItem(ACTIVE_PROJECT_KEY);
+  }
 }
 
 export function findLocalProject(id: string): LocalScienceProject | undefined {
