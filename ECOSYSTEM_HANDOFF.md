@@ -9,27 +9,42 @@ This repository currently has the legacy name `Problem-library`. For ecosystem-v
 
 The repository may be renamed later. Product contracts must not depend on the repository name.
 
+## Current milestone: keep it simple
+
+The current milestone is **not** a cloud-platform build. The only flow that must become reliable first is:
+
+```text
+Local Project
+    ↓
+Math result → Save
+    ↓
+local Scientific Object
+    ↓
+Notebook can see/use it
+Writer can start a draft from it
+```
+
+Until this flow is stable, do **not** add new authentication systems, sync engines, job queues, collaboration infrastructure, remote execution orchestration, billing gates, or complex reference graphs.
+
+The Django Platform Core is an optional future sync/share boundary. It must not become a prerequisite for ordinary local work.
+
 ## Science Hub responsibilities
 
 User-facing:
 
 - ecosystem landing / entry point;
-- recent and owned Projects;
+- local Projects first;
 - create/import Project;
 - Explore / Problems / Examples;
-- global project discovery/search shell;
-- public/share entry surfaces.
+- later public/share entry surfaces.
 
-Backend/core:
+Backend/core, only when needed:
 
 - shared Project identity;
 - Scientific Objects;
 - object revisions;
-- live/pinned/frozen references;
-- artifacts and provenance metadata;
-- activity/history;
-- authentication/permissions boundary;
-- later sync/share/search metadata.
+- references and artifacts;
+- later authentication, permissions, sync/share/search metadata.
 
 ## Explicit non-responsibilities
 
@@ -41,16 +56,16 @@ Normal compute belongs on the user's device or on an explicitly selected externa
 
 `backend/library/models.py` currently contains a simple `Project` model. This is a legacy library-domain model and must not become the ecosystem Project definition.
 
-Canonical Project identity now lives in `backend/platform_core/models.py`.
+Canonical Project identity for the optional server layer lives in `backend/platform_core/models.py`. Local-first Project identity is allowed to exist entirely in the browser during this milestone.
 
 During migration:
 
 - existing problem pages may continue using `library` models;
-- new ecosystem work must use `platform_core.Project`;
-- later add an explicit data migration only if legacy Project records matter;
-- do not create new cross-app dependencies on `library.Project`.
+- new ecosystem work must not create dependencies on `library.Project`;
+- do not migrate data merely to satisfy architecture diagrams;
+- do not delete legacy backend code until its frontend consumer has moved away from it.
 
-The tracked SQLite database and Python cache files are development artifacts; clean them from source control in a later hygiene pass after the core migration is stable.
+The tracked SQLite database and Python cache files are development artifacts; clean them from source control in a later hygiene pass after the product flow is stable.
 
 ## Canonical architecture documents
 
@@ -60,9 +75,9 @@ The tracked SQLite database and Python cache files are development artifacts; cl
 
 If another repository disagrees with these semantics, update the architecture here first or record an explicit ADR.
 
-## Platform API
+## Optional Platform API
 
-Initial shared API is mounted under:
+An initial shared API exists under:
 
 ```text
 /api/platform/projects/
@@ -73,19 +88,17 @@ Initial shared API is mounted under:
 /api/platform/activity/
 ```
 
-The first version deliberately stays small. Add domain-specific APIs to their owning app rather than turning Platform Core into a monolith of every scientific feature.
+It is **not required** for the current local-first milestone. Do not expand it until a concrete sync/share requirement appears.
 
 ## Near-term implementation order
 
-1. Finish initial Platform Core migration and baseline tests.
-2. Build Science Hub landing + Project home around the shared model.
-3. Add ecosystem app routing/config without hard-coding deployment domains.
-4. Wire Mathematics `Save to Project` for one reference workflow.
-5. Wire Notebook object references.
-6. Wire Writer `Insert from Project`.
-7. Add local-first sync/cache semantics.
-8. Add share/public object routes.
-9. Harden production settings only when deployment target is chosen.
+1. Make Project context survive navigation.
+2. Make Mathematics Save create a local Project object.
+3. Show saved Math objects inside Notebook.
+4. Let Writer start a draft from a saved Project object.
+5. Verify the three-app flow visually and with browser tests.
+6. Only then decide whether native Notebook insertion needs a dedicated block/reference model.
+7. Only after local workflow is stable, revisit server sync/share/auth.
 
 ## Design rule
 
