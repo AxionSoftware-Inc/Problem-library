@@ -3,9 +3,9 @@ import { PageContainer, PageSection } from "@/components/ui/page-shell";
 import { ui } from "@/components/ui/styles";
 
 const flow = [
-  { label: "Compute", detail: "Math & future domain tools" },
-  { label: "Reason", detail: "Notebook & project memory" },
-  { label: "Publish", detail: "Writer & durable evidence" },
+  { label: "Solve in Math", detail: "Compute and visualize on this device." },
+  { label: "Save to Project", detail: "Keep the result with the work it belongs to." },
+  { label: "Use it anywhere", detail: "Bring it into Notebook reasoning or a Writer draft." },
 ];
 
 export function LandingHero() {
@@ -15,12 +15,12 @@ export function LandingHero() {
         <PageContainer>
           <section className="grid gap-10 border-b border-[var(--color-line)] pb-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(360px,0.85fr)] lg:items-end lg:pb-14">
             <div>
-              <p className={ui.overline}>Axion Science · project-centered research</p>
+              <p className={ui.overline}>Axion Science · one project, many instruments</p>
               <h1 className="mt-4 max-w-5xl text-5xl leading-[0.98] tracking-[-0.065em] text-[var(--color-text-strong)] sm:text-6xl lg:text-[76px]">
                 Scientific work should stay connected.
               </h1>
               <p className="mt-6 max-w-2xl text-base leading-8 text-[var(--color-muted)] sm:text-lg">
-                Calculate, visualize, think, and write without breaking the research trail every time the tool changes. One Project carries the evidence through the whole workflow.
+                Calculate, visualize, think, and write without rebuilding context every time the tool changes. A Project keeps the work together while each instrument stays focused on what it does best.
               </p>
 
               <div className="mt-8 flex flex-wrap gap-3">
@@ -28,7 +28,7 @@ export function LandingHero() {
                   Start a project
                 </Link>
                 <Link href="/problems" className={ui.buttonSecondary}>
-                  Explore scientific examples
+                  Explore examples
                 </Link>
               </div>
             </div>
@@ -59,9 +59,9 @@ export function LandingHero() {
                 ))}
               </div>
 
-              <div className="mt-3 flex items-center justify-between text-[11px] text-[var(--color-muted)]">
-                <span>Result identity preserved</span>
-                <span>live · pinned · frozen</span>
+              <div className="mt-3 flex items-center justify-between gap-4 text-[11px] text-[var(--color-muted)]">
+                <span>One active Project</span>
+                <span>Math · Notebook · Writer</span>
               </div>
             </div>
           </section>
@@ -72,16 +72,16 @@ export function LandingHero() {
         <PageContainer>
           <div className="grid divide-y divide-[var(--color-line)] border-y border-[var(--color-line)] md:grid-cols-3 md:divide-x md:divide-y-0">
             <div className="px-0 py-5 md:px-6 md:first:pl-0">
-              <p className={ui.caption}>Run where you work</p>
-              <p className="mt-2 text-sm leading-6 text-[var(--color-muted)]">Ordinary compute stays on the user device whenever practical. Shared infrastructure is for continuity, not raw compute.</p>
+              <p className={ui.caption}>Local by default</p>
+              <p className="mt-2 text-sm leading-6 text-[var(--color-muted)]">Ordinary computation stays on the user device whenever practical. The core workflow does not wait for a compute server.</p>
             </div>
             <div className="px-0 py-5 md:px-6">
-              <p className={ui.caption}>Objects, not screenshots</p>
-              <p className="mt-2 text-sm leading-6 text-[var(--color-muted)]">Equations, simulations, data and visual scenes keep source, revision and provenance across tools.</p>
+              <p className={ui.caption}>Keep the result</p>
+              <p className="mt-2 text-sm leading-6 text-[var(--color-muted)]">Save a calculation with its Project, then reuse the same result instead of rebuilding it in the next tool.</p>
             </div>
             <div className="px-0 py-5 md:px-6 md:last:pr-0">
               <p className={ui.caption}>Built to expand</p>
-              <p className="mt-2 text-sm leading-6 text-[var(--color-muted)]">Math is the first instrument. Physics and future scientific domains plug into the same Project and Object protocol.</p>
+              <p className="mt-2 text-sm leading-6 text-[var(--color-muted)]">Math is the first instrument. Physics and future scientific domains can join the same Project workflow without changing its basic shape.</p>
             </div>
           </div>
         </PageContainer>
