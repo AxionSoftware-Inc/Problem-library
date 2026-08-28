@@ -1,0 +1,64 @@
+export interface LocalScienceProject {
+  id: string;
+  title: string;
+  description?: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+const STORAGE_KEY = "axion.science.projects.v1";
+
+function canUseBrowserStorage() {
+  return typeof window !== "undefined" && typeof window.localStorage !== "undefined";
+}
+
+function makeId() {
+  if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
+    return crypto.randomUUID();
+  }
+  return `local-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+}
+
+export function listLocalProjects(): LocalScienceProject[] {
+  if (!canUseBrowserStorage()) return [];
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw) as LocalScienceProject[];
+    return Array.isArray(parsed)
+      ? parsed.sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
+      : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeProjects(projects: LocalScienceProject[]) {
+  if (!canUseBrowserStorage()) return;
+  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
+}
+
+export function createLocalProject(title: string, description = ""): LocalScienceProject {
+  const cleanTitle = title.trim();
+  if (!cleanTitle) throw new Error("PROJECT_TITLE_REQUIRED");
+
+  const now = new Date().toISOString();
+  const project: LocalScienceProject = {
+    id: makeId(),
+    title: cleanTitle,
+    description: description.trim() || undefined,
+    createdAt: now,
+    updatedAt: now,
+  };
+
+  writeProjects([project, ...listLocalProjects()]);
+  return project;
+}
+
+export function deleteLocalProject(id: string) {
+  writeProjects(listLocalProjects().filter((project) => project.id !== id));
+}
+
+export function findLocalProject(id: string): LocalScienceProject | undefined {
+  return listLocalProjects().find((project) => project.id === id);
+}
