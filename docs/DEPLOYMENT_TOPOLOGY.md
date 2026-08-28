@@ -9,10 +9,11 @@ https://science.example.com/             Science Hub
 https://science.example.com/math/        Mathematics
 https://science.example.com/notebook/    Notebook
 https://science.example.com/writer/      Writer
-https://science.example.com/api/platform Platform Core (optional sync/account layer)
 ```
 
 The applications may remain separate repositories and separate build/deploy units. A lightweight edge/reverse-proxy layer can route path prefixes to each app.
+
+No shared backend is required by the current milestone.
 
 ## Why one origin matters
 
@@ -26,48 +27,51 @@ writer.example.com
 
 cannot directly share IndexedDB, OPFS, LocalStorage, SharedWorkers, or ordinary Service Worker state.
 
-That would force local scientific objects to cross app boundaries through a server or complicated browser-storage bridging. This conflicts with the low-cost/local-first product thesis.
+That would force local scientific objects to cross app boundaries through a server or a deliberate browser transfer mechanism. This conflicts with the low-cost/local-first product thesis if introduced prematurely.
 
 A same-origin path topology lets all apps share one local Project/Object store while computation stays on the user's device.
 
 ## Development topology
 
-During development, apps may run on separate localhost ports. Cross-app links are configured with environment variables:
+During development, apps may run on separate localhost ports. Cross-app links can be overridden with environment variables:
 
 ```text
 NEXT_PUBLIC_SCIENCE_URL
 NEXT_PUBLIC_MATH_URL
 NEXT_PUBLIC_NOTEBOOK_URL
 NEXT_PUBLIC_WRITER_URL
-NEXT_PUBLIC_PLATFORM_API_URL
 NEXT_PUBLIC_ECOSYSTEM_NAME
 ```
 
-When separate origins are used in development, shared local object storage will not be visible across apps. Use a local gateway/reverse proxy for true end-to-end local-first integration testing.
+Without overrides, ecosystem navigation assumes the preferred same-origin paths `/math`, `/notebook`, and `/writer`.
+
+When separate origins are used in development, shared local object storage will not be visible across apps. Use a local gateway/reverse proxy only when true end-to-end cross-app local-storage testing is needed.
 
 ## Next.js deployment note
 
-If an app is served below a path prefix, its production build must be aware of the prefix (`basePath`/asset routing or an equivalent edge rewrite strategy). Do not hard-code repository-specific domains inside product components.
+Path-based production deployment still needs a small deployment pass. Each app build must be aware of its public path prefix (`basePath`/asset routing or an equivalent edge rewrite strategy), and raw internal URLs must respect that prefix.
 
-## Backend cost model
+This is **not yet implemented as a mandatory build configuration**. Do it when the hosting topology is selected; do not rewrite working product routes merely for a hypothetical deployment.
 
-Platform Core remains small because it does not execute normal mathematics/notebook workloads. It may eventually provide:
+## Future server option
+
+If cross-device features later become real requirements, a small shared service may provide:
 
 - account/authentication;
 - optional cloud sync;
-- project/object metadata replication;
+- Project/Object metadata replication;
 - public share records;
 - search metadata;
 - collaboration later.
 
-Anonymous/local projects must remain usable without this service.
+Anonymous/local Projects must remain usable without this service, and ordinary Math/Notebook computation should not be moved there by default.
 
 ## Fallback topology
 
 If same-origin deployment is impractical, separate origins are allowed, but cross-app local object transfer must then use one of:
 
-1. optional Platform Core sync;
-2. explicit portable project/object bundles;
+1. a future optional sync service;
+2. explicit portable Project/Object bundles;
 3. a deliberately designed browser bridge with documented security constraints.
 
 Do not silently assume LocalStorage/IndexedDB is shared across subdomains.
