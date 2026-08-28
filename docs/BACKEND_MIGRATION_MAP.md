@@ -1,85 +1,102 @@
 # Backend Migration Map
 
-This file prevents ecosystem-v1 work from accidentally expanding legacy per-app backends.
+Status: **future migration guidance, not current implementation**
 
-## Target state
+The current ecosystem milestone is local-first and does not introduce a new shared backend. This document exists only to prevent future work from accidentally expanding duplicated per-app infrastructure.
+
+## Current state
 
 ```text
-Platform Core backend
-  auth / permissions
-  projects
-  scientific objects
-  revisions
-  references
-  artifacts
-  activity
-  sync/share/search metadata
+Browser
+  local Project identity
+  local Scientific Objects
+  Math computation
+  Notebook access to Project results
+  Writer draft import from Project results
 
-Browser / external execution
-  mathematics
-  notebook Python
-  simulations where practical
-  visualization
-
-App-specific backend only when justified
-  Writer publication/export operations that cannot be local
-  future integration/webhook services
+Existing app backends
+  remain untouched while current consumers still need them
 ```
+
+No `Platform Core` API is required or implemented for this milestone.
+
+## Server rule for later
+
+Only add shared server infrastructure after a concrete requirement appears, such as:
+
+- sign-in across devices;
+- cloud sync;
+- collaboration;
+- public sharing;
+- durable server-side publication storage;
+- search across synced projects.
+
+When that happens, the smallest useful server should mirror the existing Project / Scientific Object contract instead of replacing the local-first model.
+
+A possible future boundary may own:
+
+```text
+identity / permissions
+projects
+scientific object metadata
+revisions
+references
+artifacts
+sync/share/search metadata
+```
+
+It should still **not** become the default mathematics, notebook Python, simulation or visualization compute server.
 
 ## Mathematics-Frontend
 
-Current: a `Mathematics-Back` repository/submodule reference and browser-side Laboratory logic.
+Current direction:
 
-Target: normal studio computation runs locally. Platform Core stores project/object metadata and portable artifacts.
+- normal studio computation stays local whenever practical;
+- active-Project Save writes a Scientific Object to the shared browser store;
+- old backend-dependent paths can remain as fallbacks while they still have consumers.
 
-Deletion gate for Mathematics backend dependency:
-
-- all normal studios work without mandatory backend compute;
-- Save/Open Scientific Object works;
-- any server-only capability is explicitly classified as optional external compute or removed.
+Do not build a new server-compute dependency merely to standardize architecture.
 
 ## Notebook
 
-Current: Django + PostgreSQL/Redis-oriented deployment + queued execution worker.
+Current backend includes Django plus PostgreSQL/Redis-oriented queued execution infrastructure.
 
-Target: local-first runtime using browser execution (JupyterLite/Pyodide/Web Workers where appropriate), with Platform Core for synced metadata/state.
+For this milestone:
 
-Deletion gate for queue/worker stack:
+- do not expand the queue/worker system;
+- Project results are read locally;
+- existing server paths remain only for current product behavior.
 
-- notebook editing persists locally when offline;
-- computational blocks have a local execution path;
-- project/object references persist through Platform Core when signed in;
-- import/export/checkpoint behavior no longer depends on execution jobs.
-
-Until then, do not add new product features to the worker architecture unless needed for migration safety.
+Future simplification can move ordinary notebook execution toward JupyterLite/Pyodide/Web Workers if real workflows justify it. Remove server execution infrastructure only after every required consumer has another path.
 
 ## Writer
 
-Current: Django `application`, `paper_builder`, and a very large duplicated `laboratory` solver package.
+Current backend contains Writer-specific persistence plus a large duplicated `backend/laboratory` solver package.
 
-Target: Writer consumes Scientific Objects created by domain tools. It never needs a private math solver copy.
+For this milestone:
 
-Deletion gate for `backend/laboratory`:
+- no new solver logic belongs in Writer;
+- local Math results can already start a Writer draft through the Project flow;
+- keep existing backend routes that current Writer functionality still needs.
 
-- `Insert from Project` can browse and resolve scientific objects;
-- current lab-result cards render generic object payloads/scenes;
-- live/pinned/frozen references work;
-- no Writer route directly calls the duplicated laboratory endpoints.
+Later deletion gate for duplicated solver code:
 
-`paper_builder` may remain temporarily for document persistence/export. Shared project identity must migrate to Platform Core before final backend simplification.
+- no active Writer frontend path calls duplicated laboratory endpoints;
+- Project-result import covers the required scientific-result workflow;
+- any remaining Writer backend responsibility is genuinely publication/document specific.
 
 ## Problem-library / Science Hub
 
-Current: small Django `library` backend with a legacy Project model and SQLite development DB.
+Current Django `library` backend remains unchanged for legacy Problem Library pages.
 
-Target: this repository hosts canonical Platform Core plus Explore/Problem Library domain data.
+Science Hub ecosystem work is browser-local in this milestone:
 
-Migration rule:
+- local Projects in browser storage;
+- local Scientific Objects in IndexedDB;
+- ecosystem navigation carrying active Project context.
 
-- new ecosystem projects use `platform_core.Project` only;
-- `library.Project` is legacy and receives no new cross-app dependencies;
-- legacy problem/example data can remain in `library` until a later domain cleanup.
+Do not add a new `platform_core` Django app until sync/share/auth is an actual product requirement.
 
 ## Cost rule
 
-No architecture change may make first-party CPU/GPU execution a mandatory cost for ordinary user workflows without an explicit architecture decision. The ecosystem must remain viable on minimal shared infrastructure.
+No architecture change may make first-party CPU/GPU execution a mandatory cost for ordinary user workflows without an explicit architecture decision. The ecosystem must remain useful with minimal shared infrastructure.
