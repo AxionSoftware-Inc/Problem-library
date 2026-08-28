@@ -1,3 +1,5 @@
+import { deleteLocalScientificDataForProject } from "./local-project-cleanup";
+
 export interface LocalScienceProject {
   id: string;
   title: string;
@@ -62,6 +64,7 @@ export function deleteLocalProject(id: string) {
   if (canUseBrowserStorage() && window.localStorage.getItem(ACTIVE_PROJECT_KEY) === id) {
     window.localStorage.removeItem(ACTIVE_PROJECT_KEY);
   }
+  void deleteLocalScientificDataForProject(id).catch(() => undefined);
 }
 
 export function findLocalProject(id: string): LocalScienceProject | undefined {
