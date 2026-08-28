@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Manrope, Space_Grotesk } from "next/font/google";
+import { EcosystemBar } from "@/components/ecosystem/ecosystem-bar";
 import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
 import "./globals.css";
@@ -20,9 +21,9 @@ const displayFont = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Problem Library | Engineering Learning Platform",
+  title: "Axion Science",
   description:
-    "Bitta muammoni chuqur o‘rganish uchun markazlashgan design system va komponentli arxitekturaga ega engineering learning platform.",
+    "A project-centered scientific environment connecting computation, reasoning, visualization, and publication.",
 };
 
 export default function RootLayout({
@@ -36,6 +37,7 @@ export default function RootLayout({
         className={`${bodyFont.variable} ${displayFont.variable} ${geistMono.variable} antialiased`}
       >
         <div className="relative flex min-h-screen flex-col">
+          <EcosystemBar currentApp="science" />
           <Navbar />
           <div className="flex-1">{children}</div>
           <Footer />
