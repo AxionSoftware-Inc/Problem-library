@@ -8,51 +8,55 @@ const links = [
   { href: "/problems", label: "Explore" },
 ];
 
+function ScienceMark() {
+  return (
+    <svg viewBox="0 0 36 36" className="h-8 w-8 text-[var(--ax-accent)]" aria-hidden="true">
+      <circle cx="18" cy="18" r="15.5" fill="none" stroke="currentColor" strokeWidth="1.1" />
+      <ellipse cx="18" cy="18" rx="7" ry="15.5" fill="none" stroke="currentColor" strokeWidth="0.8" opacity="0.72" />
+      <ellipse cx="18" cy="18" rx="15.5" ry="6.8" fill="none" stroke="currentColor" strokeWidth="0.8" opacity="0.72" />
+      <path d="M3 18h30M18 2.5v31" stroke="currentColor" strokeWidth="0.75" opacity="0.55" />
+    </svg>
+  );
+}
+
+const navLink = "rounded-[var(--ax-radius-control)] px-2 py-1.5 text-[12px] font-semibold text-[var(--ax-text-soft)] outline-none transition-colors duration-[var(--ax-motion-fast)] hover:bg-[var(--ax-surface-soft)] hover:text-[var(--ax-text)] focus-visible:shadow-[var(--ax-focus-ring)]";
+
 export function Navbar() {
   const pathname = usePathname();
 
   return (
     <header className="sticky top-0 z-40 border-b border-[var(--ax-line)] bg-[color-mix(in_srgb,var(--ax-surface)_96%,transparent)] backdrop-blur-xl">
-      <div className="mx-auto flex h-14 w-full max-w-[var(--ax-content-max)] items-center justify-between gap-4 px-4 sm:px-6">
-        <Link href="/" className="flex min-w-0 items-center gap-3 outline-none focus-visible:shadow-[var(--ax-focus-ring)]" aria-label="Axion Science home">
-          <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-[var(--ax-radius-control)] border border-[var(--ax-line-strong)] bg-[var(--ax-surface)]">
-            <span className="h-2.5 w-2.5 rounded-full bg-[var(--ax-accent)]" />
-            <span className="absolute h-6 w-6 rounded-full border border-[var(--ax-line-strong)]" />
-          </div>
-          <div className="min-w-0 leading-none">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--ax-accent)]">Axion Science</p>
-            <p className="mt-1 truncate text-xs font-semibold text-[var(--ax-text)]">Project environment</p>
-          </div>
+      <div className="mx-auto flex h-[64px] w-full max-w-[var(--ax-content-max)] items-center justify-between gap-5 px-4 sm:px-6">
+        <Link href="/" className="flex min-w-0 items-center gap-3 rounded-[var(--ax-radius-control)] outline-none focus-visible:shadow-[var(--ax-focus-ring)]" aria-label="Axion Science home">
+          <ScienceMark />
+          <span className="truncate text-[19px] font-medium tracking-[-0.025em] text-[var(--ax-text)] sm:text-[20px]">
+            Axion Science
+          </span>
         </Link>
 
-        <div className="flex items-center gap-2">
-          <nav className="hidden h-9 items-center gap-1 rounded-[var(--ax-radius-control)] border border-[var(--ax-line)] bg-[var(--ax-surface-soft)] p-1 md:flex" aria-label="Science Hub">
+        <nav className="flex items-center gap-1 sm:gap-3" aria-label="Science Hub">
+          <div className="hidden items-center gap-1 md:flex">
             {links.map((link) => {
-              const isActive = pathname.startsWith(link.href);
+              const active = pathname.startsWith(link.href);
               return (
                 <Link
                   key={link.href}
                   href={link.href}
-                  aria-current={isActive ? "page" : undefined}
-                  className={`inline-flex h-7 items-center rounded-[7px] px-3 text-[11px] font-semibold outline-none transition-colors duration-[var(--ax-motion-fast)] focus-visible:shadow-[var(--ax-focus-ring)] ${
-                    isActive
-                      ? "bg-[var(--ax-surface)] text-[var(--ax-text)] shadow-[0_1px_2px_rgb(23_36_54_/_0.06)]"
-                      : "text-[var(--ax-text-soft)] hover:text-[var(--ax-text)]"
-                  }`}
+                  aria-current={active ? "page" : undefined}
+                  className={`${navLink} ${active ? "bg-[var(--ax-surface-soft)] text-[var(--ax-text)]" : ""}`}
                 >
                   {link.label}
                 </Link>
               );
             })}
-          </nav>
-
+          </div>
           <Link
             href="/projects"
-            className="inline-flex h-9 items-center justify-center rounded-[var(--ax-radius-control)] border border-[var(--ax-line-strong)] bg-[var(--ax-surface)] px-3 text-[11px] font-semibold text-[var(--ax-text)] outline-none transition-colors duration-[var(--ax-motion-fast)] hover:bg-[var(--ax-surface-soft)] focus-visible:shadow-[var(--ax-focus-ring)]"
+            className="ml-1 inline-flex h-9 items-center rounded-[var(--ax-radius-control)] border border-transparent bg-[var(--ax-accent-strong)] px-4 text-[11px] font-semibold text-white outline-none transition-colors duration-[var(--ax-motion-fast)] hover:bg-[var(--ax-accent)] focus-visible:shadow-[var(--ax-focus-ring)]"
           >
-            New project
+            New Project
           </Link>
-        </div>
+        </nav>
       </div>
     </header>
   );
