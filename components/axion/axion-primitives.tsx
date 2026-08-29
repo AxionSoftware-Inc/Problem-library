@@ -7,22 +7,28 @@ function cx(...parts: Array<string | false | null | undefined>) {
 export type AxButtonVariant = "primary" | "secondary" | "quiet" | "danger";
 export type AxButtonSize = "sm" | "md";
 
+function actionClasses(variant: AxButtonVariant, size: AxButtonSize, className?: string) {
+  const variants: Record<AxButtonVariant, string> = {
+    primary: "border-transparent bg-[var(--ax-accent-strong)] text-white hover:bg-[var(--ax-accent)]",
+    secondary: "border-[var(--ax-line-strong)] bg-[var(--ax-surface)] text-[var(--ax-text)] hover:bg-[var(--ax-surface-soft)]",
+    quiet: "border-transparent bg-transparent text-[var(--ax-text-soft)] hover:bg-[var(--ax-surface-soft)] hover:text-[var(--ax-text)]",
+    danger: "border-transparent bg-[var(--ax-danger)] text-white hover:opacity-90",
+  };
+  const sizes: Record<AxButtonSize, string> = { sm: "h-8 px-3 text-[11px]", md: "h-10 px-4 text-xs" };
+  return cx("inline-flex shrink-0 items-center justify-center gap-2 rounded-[var(--ax-radius-control)] border font-semibold transition-[background-color,color,border-color,box-shadow] duration-[var(--ax-motion-fast)] ease-[var(--ax-ease-standard)] outline-none focus-visible:shadow-[var(--ax-focus-ring)]", variants[variant], sizes[size], className);
+}
+
 export const AxButton = React.forwardRef<HTMLButtonElement, React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: AxButtonVariant; size?: AxButtonSize }>(
-  ({ className, variant = "secondary", size = "md", type = "button", ...props }, ref) => {
-    const variants: Record<AxButtonVariant, string> = {
-      primary: "border-transparent bg-[var(--ax-accent-strong)] text-white hover:bg-[var(--ax-accent)]",
-      secondary: "border-[var(--ax-line-strong)] bg-[var(--ax-surface)] text-[var(--ax-text)] hover:bg-[var(--ax-surface-soft)]",
-      quiet: "border-transparent bg-transparent text-[var(--ax-text-soft)] hover:bg-[var(--ax-surface-soft)] hover:text-[var(--ax-text)]",
-      danger: "border-transparent bg-[var(--ax-danger)] text-white hover:opacity-90",
-    };
-    const sizes: Record<AxButtonSize, string> = {
-      sm: "h-8 px-3 text-[11px]",
-      md: "h-10 px-4 text-xs",
-    };
-    return <button ref={ref} type={type} className={cx("inline-flex shrink-0 items-center justify-center gap-2 rounded-[var(--ax-radius-control)] border font-semibold transition-[background-color,color,border-color,box-shadow] duration-[var(--ax-motion-fast)] ease-[var(--ax-ease-standard)] outline-none focus-visible:shadow-[var(--ax-focus-ring)] disabled:pointer-events-none disabled:opacity-45", variants[variant], sizes[size], className)} {...props} />;
-  },
+  ({ className, variant = "secondary", size = "md", type = "button", ...props }, ref) => (
+    <button ref={ref} type={type} className={cx(actionClasses(variant, size, className), "disabled:pointer-events-none disabled:opacity-45")} {...props} />
+  ),
 );
 AxButton.displayName = "AxButton";
+
+export const AxActionLink = React.forwardRef<HTMLAnchorElement, React.AnchorHTMLAttributes<HTMLAnchorElement> & { variant?: AxButtonVariant; size?: AxButtonSize }>(
+  ({ className, variant = "secondary", size = "md", ...props }, ref) => <a ref={ref} className={actionClasses(variant, size, className)} {...props} />,
+);
+AxActionLink.displayName = "AxActionLink";
 
 export const AxInput = React.forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>(({ className, ...props }, ref) => (
   <input ref={ref} className={cx("h-10 w-full rounded-[var(--ax-radius-control)] border border-[var(--ax-line-strong)] bg-[var(--ax-surface)] px-3 text-sm text-[var(--ax-text)] outline-none transition-[border-color,box-shadow] duration-[var(--ax-motion-fast)] placeholder:text-[var(--ax-text-faint)] focus:border-[var(--ax-accent)] focus:shadow-[var(--ax-focus-ring)]", className)} {...props} />
@@ -47,9 +53,9 @@ export function AxBadge({ children, tone = "neutral", className }: { children: R
   const tones = {
     neutral: "border-[var(--ax-line)] bg-[var(--ax-surface-soft)] text-[var(--ax-text-soft)]",
     accent: "border-transparent bg-[var(--ax-accent-soft)] text-[var(--ax-accent-strong)]",
-    success: "border-transparent bg-[color-mix(in_srgb,var(--ax-success)_10%,transparent)] text-[var(--ax-success)]",
-    warning: "border-transparent bg-[color-mix(in_srgb,var(--ax-warning)_10%,transparent)] text-[var(--ax-warning)]",
-    danger: "border-transparent bg-[color-mix(in_srgb,var(--ax-danger)_10%,transparent)] text-[var(--ax-danger)]",
+    success: "border-transparent bg-[var(--ax-surface-soft)] text-[var(--ax-success)]",
+    warning: "border-transparent bg-[var(--ax-surface-soft)] text-[var(--ax-warning)]",
+    danger: "border-transparent bg-[var(--ax-surface-soft)] text-[var(--ax-danger)]",
   };
   return <span className={cx("inline-flex h-6 items-center rounded-full border px-2.5 text-[10px] font-semibold", tones[tone], className)}>{children}</span>;
 }
