@@ -2,7 +2,7 @@
 
 Status: canonical component contract for all first-party apps.
 
-This document turns the visual system into reusable interaction primitives. Science Hub, Mathematics, Notebook, Writer, and future domain tools should reuse these primitives instead of inventing app-local button, field, tab, panel, badge, toolbar, disclosure, empty-state, or inspector styles.
+This document turns the visual system into reusable interaction primitives. Science Hub, Mathematics, Notebook, Writer, and future domain tools should reuse these primitives instead of inventing app-local button, field, tab, panel, badge, toolbar, disclosure, feedback, empty-state, metadata, or inspector styles.
 
 ## Core rule
 
@@ -19,9 +19,10 @@ Do not put business logic into the global primitive layer.
 
 ## Canonical implementation
 
-Current app-local mirror:
+Current app-local mirrors:
 
-`components/axion/axion-primitives.tsx`
+- `components/axion/axion-primitives.tsx`
+- `components/axion/axion-feedback.tsx`
 
 Import through:
 
@@ -31,6 +32,8 @@ import {
   AxDisclosure,
   AxField,
   AxInput,
+  AxLoadingState,
+  AxNotice,
   AxPanel,
   AxToolbar,
 } from "@/components/axion";
@@ -89,6 +92,20 @@ Canonical progressive-disclosure surface for Advanced settings, diagnostics, met
 
 The summary must tell the user what is inside. Do not hide a primary scientific result behind disclosure.
 
+### AxNotice
+
+Canonical contextual feedback for information, success, warning, failure, or neutral workflow guidance.
+
+A notice explains a state; a badge only labels it. Warnings and errors should say what happened and, when possible, what the user can do next.
+
+### AxLoadingState
+
+Canonical quiet asynchronous/loading state. Use it when the surface is genuinely waiting for data or initialization. Do not show a blocking loader for ordinary local computation when the surrounding interface can remain interactive.
+
+### AxMetaRow
+
+Canonical compact key/value row for provenance, object metadata, parameters, source, revision, timestamps, and other inspector content. It belongs in inspectors/details, not in the primary scientific hero.
+
 ### AxEmptyState
 
 An empty state must answer two questions:
@@ -141,17 +158,18 @@ Every primitive must preserve:
 - semantic HTML roles;
 - reduced-motion behavior via shared tokens;
 - sufficient text/border contrast;
-- disabled state that is both visually and functionally disabled.
+- disabled state that is both visually and functionally disabled;
+- status/loading messaging that is understandable without relying on color alone.
 
 ## Current migration status
 
 Already aligned with the global language:
 
 - ecosystem bar across first-party apps;
-- Science Hub landing, navbar, Projects creation/list/empty states;
-- Mathematics shared Solve shell and Differential / Matrix / Probability / Series-Limit composers;
-- Notebook Project Results tray, toolbar chrome, popovers/modals, and workspace shell surfaces;
-- Writer Project Results surface and editor chrome override layer.
+- Science Hub landing, navbar, footer, Projects creation/list/empty states and legacy token aliases;
+- Mathematics navbar/footer, shared Solve shell, Differential / Matrix / Probability / Series-Limit composers, canonical Advanced disclosure, and compatibility layer for legacy chrome;
+- Notebook Project Results tray, toolbar chrome, popovers/modals, workspace shell, and compatibility layer for older surfaces;
+- Writer Project Results surface, global loading state, editor chrome override layer, and legacy token bridge.
 
 Intentionally preserved for now:
 
@@ -167,9 +185,9 @@ Do not redesign a whole app in one commit merely to adopt primitives.
 Migration order:
 
 1. ecosystem chrome;
-2. empty states and project surfaces;
+2. empty/loading/feedback states and project surfaces;
 3. repeated buttons/fields/tabs;
-4. toolbars, disclosures and inspectors;
+4. toolbars, disclosures, metadata and inspectors;
 5. domain-specific surfaces only when there is a concrete UX benefit.
 
 Existing stable scientific renderers/editors should remain intact while their surrounding controls migrate.
