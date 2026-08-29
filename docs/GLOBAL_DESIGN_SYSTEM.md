@@ -4,6 +4,28 @@ Status: canonical global visual/interaction contract.
 
 This system is shared by Science Hub, Mathematics, Notebook, Writer, and future Physics/domain tools. Individual apps may have different working surfaces, but they must feel like instruments from one scientific environment.
 
+## Reference implementation
+
+**`Mathematics-Frontend` is the visual reference implementation for the first-party ecosystem.**
+
+When a shell, navbar, toolbar, panel, field, status, dialog, spacing rule, typography decision, or general UI treatment differs between apps without a domain-specific reason, move the other app toward Mathematics rather than inventing a neutral third style.
+
+Reference traits:
+
+- cool white / `#f7f9fc` family canvas;
+- white working surfaces;
+- deep scientific navy identity and primary action;
+- thin cool-neutral borders;
+- restrained 8–14 px geometry for controls and panels;
+- Manrope-like neutral UI typography with restrained editorial serif where hierarchy benefits;
+- 64 px primary product navbar with the scientific globe mark;
+- compact ecosystem strip above app chrome;
+- minimal shadows, no decorative glow or generic SaaS gradients;
+- strong whitespace around the scientific/document surface;
+- progressive disclosure instead of permanent settings walls.
+
+Notebook may keep an editorial document surface. Writer may keep a publication/manuscript surface. Future Physics may keep spatial simulation surfaces. These are **content-surface exceptions**, not permission to invent different navigation, controls, modal, card, status, or shell aesthetics.
+
 ## Design thesis
 
 Axion Science should not look like a generic SaaS dashboard and should not imitate short-lived sci-fi trends. The product should feel precise, calm, spatial, and unusually capable: a scientific instrument designed for the next decade.
@@ -72,30 +94,30 @@ Respect reduced-motion preferences. Never make scientific reading depend on anim
 ## App personalities
 
 ### Science Hub
-Project and continuity are the hero. It may be more spatial/graph-oriented than the other apps, but should remain calm and editorial rather than dashboard-heavy.
+Project and continuity are the hero. It uses the Mathematics shell/nav geometry while giving Project flow more space than an instrument page.
 
 ### Mathematics
-Equation → visualization → result is the hero. Large plotting/spatial regions are encouraged. Controls should resemble a scientific instrument, not a form builder.
+Reference UI implementation. Equation → visualization → result is the hero. Large plotting/spatial regions are encouraged. Controls should resemble a scientific instrument, not a form builder.
 
 ### Notebook
-Reasoning and evidence are the hero. It should be the quietest app: generous reading width, semantic blocks, low chrome, easy insertion of Project results.
+Reasoning and evidence are the hero. Keep the Mathematics shell, controls, popovers and statuses; the document itself may be quieter and more editorial.
 
 ### Writer
-The manuscript is the hero. Publication canvas dominates. Scientific object metadata appears through contextual insertion/inspectors, not persistent dashboards.
+The manuscript is the hero. Keep the Mathematics shell, controls, archive geometry and dialogs; the publication canvas itself remains paper-oriented.
 
 ### Physics / future domains
-Use the same shell/tokens but allow richer spatial scenes, time controls, fields, trajectories, meshes, and simulation state. Do not invent a separate product aesthetic.
+Use the Mathematics reference shell/tokens but allow richer spatial scenes, time controls, fields, trajectories, meshes, and simulation state. Do not invent a separate product aesthetic.
 
 ## Ecosystem shell contract
 
-Every app should eventually expose the same conceptual top layer:
+Every app exposes the same conceptual top layer:
 
 ```text
 Axion Science     Project: <current project>
 Math   Notebook   Writer   Explore
 ```
 
-The shell must preserve Project context across app changes. App-specific toolbars live below it.
+Below it, the primary app/product navbar follows the Mathematics 64 px geometry. Project context survives app changes. App-specific toolbars live below that navbar when required.
 
 ## Visualization language
 
@@ -140,6 +162,7 @@ Initial shared token file: `styles/axion-science-tokens.css` in each app. These 
 
 Before accepting a global UI change, ask:
 
+- Does it visually agree with Mathematics unless the content surface genuinely requires a difference?
 - Does the science/work remain visually primary?
 - Is this simpler without removing expert depth?
 - Does it feel like the same ecosystem in every app?
