@@ -2,7 +2,7 @@
 
 Status: canonical component contract for all first-party apps.
 
-This document turns the visual system into reusable interaction primitives. Science Hub, Mathematics, Notebook, Writer, and future domain tools should reuse these primitives instead of inventing app-local button, field, tab, panel, badge, empty-state, or inspector styles.
+This document turns the visual system into reusable interaction primitives. Science Hub, Mathematics, Notebook, Writer, and future domain tools should reuse these primitives instead of inventing app-local button, field, tab, panel, badge, toolbar, disclosure, empty-state, or inspector styles.
 
 ## Core rule
 
@@ -26,14 +26,21 @@ Current app-local mirror:
 Import through:
 
 ```ts
-import { AxButton, AxField, AxInput, AxPanel } from "@/components/axion";
+import {
+  AxButton,
+  AxDisclosure,
+  AxField,
+  AxInput,
+  AxPanel,
+  AxToolbar,
+} from "@/components/axion";
 ```
 
 The files are mirrored across repositories for now. Once the API stabilizes, move them into a shared package without changing consumer semantics.
 
 ## Primitive set
 
-### AxButton
+### AxButton / AxActionLink
 
 Variants:
 
@@ -42,7 +49,15 @@ Variants:
 - `quiet` — low-priority toolbar/navigation action;
 - `danger` — destructive action only.
 
+Use `AxActionLink` for navigation that visually belongs to the same action hierarchy. Do not replace links with buttons merely for styling.
+
 Do not place several primary buttons next to each other.
+
+### AxIconButton / AxToolbar
+
+`AxIconButton` is for compact actions with a real accessible label. Icon-only actions must always provide `aria-label`.
+
+`AxToolbar` groups actions that operate on the current scientific/document surface. A toolbar is not ecosystem navigation and should not become a container for unrelated settings.
 
 ### AxInput / AxTextarea / AxSelect / AxField
 
@@ -67,6 +82,12 @@ Use only when a real working surface needs separation. Prefer whitespace and hie
 ### AxBadge
 
 Badges communicate compact state/category only: Local, Saved, Exact, Approximate, Warning, Draft, etc. They should not become decorative labels on every element.
+
+### AxDisclosure
+
+Canonical progressive-disclosure surface for Advanced settings, diagnostics, methods, provenance detail, or secondary controls.
+
+The summary must tell the user what is inside. Do not hide a primary scientific result behind disclosure.
 
 ### AxEmptyState
 
@@ -122,6 +143,23 @@ Every primitive must preserve:
 - sufficient text/border contrast;
 - disabled state that is both visually and functionally disabled.
 
+## Current migration status
+
+Already aligned with the global language:
+
+- ecosystem bar across first-party apps;
+- Science Hub landing, navbar, Projects creation/list/empty states;
+- Mathematics shared Solve shell and Differential / Matrix / Probability / Series-Limit composers;
+- Notebook Project Results tray, toolbar chrome, popovers/modals, and workspace shell surfaces;
+- Writer Project Results surface and editor chrome override layer.
+
+Intentionally preserved for now:
+
+- approved Integral scientific hierarchy and visual renderer;
+- core Notebook document/block editing behavior;
+- Writer manuscript/publication rendering;
+- existing scientific visualization engines.
+
 ## Migration rule
 
 Do not redesign a whole app in one commit merely to adopt primitives.
@@ -131,7 +169,7 @@ Migration order:
 1. ecosystem chrome;
 2. empty states and project surfaces;
 3. repeated buttons/fields/tabs;
-4. inspectors and advanced controls;
+4. toolbars, disclosures and inspectors;
 5. domain-specific surfaces only when there is a concrete UX benefit.
 
 Existing stable scientific renderers/editors should remain intact while their surrounding controls migrate.
