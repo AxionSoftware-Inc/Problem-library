@@ -1,44 +1,32 @@
 import Link from "next/link";
-import { ui } from "@/components/ui/styles";
 
 const footerLinks = [
-  { href: "/", label: "Home" },
-  { href: "/problems", label: "Problems" },
-  { href: "/problems/led-design", label: "Featured case" },
+  { href: "/projects", label: "Projects" },
+  { href: "/problems", label: "Explore" },
+  { href: "/", label: "Science Hub" },
 ];
 
 export function Footer() {
   return (
-    <footer className="border-t border-[var(--color-line)] bg-[var(--color-surface)]">
-      <div className={`${ui.container} grid gap-5 py-5 lg:grid-cols-[1.3fr_0.7fr]`}>
-        <div className="space-y-2">
-          <p className={ui.overline}>Problem Library</p>
-          <p className="max-w-2xl text-sm leading-6 text-[var(--color-muted)]">
-            Professional scientific interface with centralized tokens, compact panels,
-            and reusable workspace components.
+    <footer className="border-t border-[var(--ax-line)] bg-[var(--ax-surface)]">
+      <div className="mx-auto grid w-full max-w-[var(--ax-content-max)] gap-6 px-4 py-7 sm:px-6 lg:grid-cols-[1.35fr_0.65fr]">
+        <div className="max-w-2xl">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--ax-accent)]">Axion Science</p>
+          <p className="mt-2 text-sm leading-6 text-[var(--ax-text-soft)]">
+            One Project context across computation, reasoning, visualization, and publication. Each instrument stays focused; the research trail stays connected.
           </p>
         </div>
 
-        <div className="grid gap-5 sm:grid-cols-2">
-          <div className="space-y-2">
-            <p className={ui.caption}>Navigation</p>
-            <div className="flex flex-col gap-2 text-sm text-[var(--color-muted)]">
-              {footerLinks.map((link) => (
-                <Link key={link.href} href={link.href} className="transition hover:text-[var(--color-text-strong)]">
-                  {link.label}
-                </Link>
-              ))}
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <p className={ui.caption}>System</p>
-            <div className="space-y-2 text-sm text-[var(--color-muted)]">
-              <p>Theme tokens</p>
-              <p>Component architecture</p>
-              <p>Reusable layout shell</p>
-            </div>
-          </div>
+        <div className="flex flex-wrap items-start gap-x-8 gap-y-3 lg:justify-end">
+          {footerLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="rounded-[var(--ax-radius-control)] px-1 py-1 text-[11px] font-semibold text-[var(--ax-text-soft)] outline-none transition-colors duration-[var(--ax-motion-fast)] hover:text-[var(--ax-text)] focus-visible:shadow-[var(--ax-focus-ring)]"
+            >
+              {link.label}
+            </Link>
+          ))}
         </div>
       </div>
     </footer>
