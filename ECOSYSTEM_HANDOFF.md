@@ -1,7 +1,7 @@
 # Ecosystem Handoff — Science Hub / Problem Library
 
-Branch: `ecosystem-v1-foundation-2026-08-28`
-Base: `main` at `eb95d700e1b4f9e2e36402219c73bc0595feb4e0`
+Active development branch: `main`
+Pre-ecosystem baseline: `freeze/pre-ecosystem-main-2026-08-29`
 
 ## Role
 
@@ -44,6 +44,7 @@ Contract ownership:
 - Scientific Object shape;
 - local object/revision storage contract;
 - ecosystem app navigation contract;
+- global design system semantics;
 - later, only if needed, sync/share protocol semantics.
 
 ## Explicit non-responsibilities
@@ -66,13 +67,15 @@ During this milestone:
 
 The tracked SQLite database and Python cache files are development artifacts; clean them from source control in a later hygiene pass after the product flow is stable.
 
-## Canonical architecture documents
+## Canonical architecture/design documents
 
 - `docs/ECOSYSTEM_MASTER_BLUEPRINT.md`
 - `docs/SCIENTIFIC_OBJECT_SPEC.md`
+- `docs/GLOBAL_DESIGN_SYSTEM.md`
+- `docs/ECOSYSTEM_DESIGN_LANGUAGE.md`
 - `lib/ecosystem/contracts.ts`
 
-These documents describe direction, not a requirement to implement every layer immediately. If another repository disagrees with the core object semantics, update the architecture here first or record an explicit ADR.
+These documents describe direction, not a requirement to implement every layer immediately. If another repository disagrees with the core object or global design semantics, update the canonical contract here first or record an explicit ADR.
 
 ## Server rule
 
@@ -86,9 +89,10 @@ If sync/share/auth later becomes a real user requirement, add the smallest serve
 2. Make Mathematics Save create a local Project object.
 3. Show saved Math objects inside Notebook.
 4. Let Writer start a draft from a saved Project object.
-5. Verify the three-app flow visually and with browser tests.
-6. Only then decide whether native Notebook insertion needs a dedicated block/reference model.
-7. Only after local workflow is stable, revisit server sync/share/auth.
+5. Apply the shared design tokens/components without flattening app-specific strengths.
+6. Verify the three-app flow visually and with browser tests.
+7. Only then decide whether native Notebook insertion needs a dedicated block/reference model.
+8. Only after local workflow is stable, revisit server sync/share/auth.
 
 ## Design rule
 
