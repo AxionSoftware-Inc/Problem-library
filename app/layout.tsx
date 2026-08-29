@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Manrope, Space_Grotesk } from "next/font/google";
+import { Geist_Mono, Manrope, Playfair_Display } from "next/font/google";
 import { EcosystemBar } from "@/components/ecosystem/ecosystem-bar";
 import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const displayFont = Space_Grotesk({
+const displayFont = Playfair_Display({
   variable: "--font-display",
   subsets: ["latin"],
 });
