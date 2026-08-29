@@ -12,7 +12,7 @@ export function Navbar() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-9 z-40 border-b border-[var(--ax-line)] bg-[color-mix(in_srgb,var(--ax-surface)_96%,transparent)] backdrop-blur-xl">
+    <header className="sticky top-0 z-40 border-b border-[var(--ax-line)] bg-[color-mix(in_srgb,var(--ax-surface)_96%,transparent)] backdrop-blur-xl">
       <div className="mx-auto flex h-14 w-full max-w-[var(--ax-content-max)] items-center justify-between gap-4 px-4 sm:px-6">
         <Link href="/" className="flex min-w-0 items-center gap-3 outline-none focus-visible:shadow-[var(--ax-focus-ring)]" aria-label="Axion Science home">
           <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-[var(--ax-radius-control)] border border-[var(--ax-line-strong)] bg-[var(--ax-surface)]">
