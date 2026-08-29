@@ -15,7 +15,7 @@ export function LandingHero() {
           <section className="grid gap-10 border-b border-[var(--ax-line)] pb-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(360px,0.85fr)] lg:items-end lg:pb-14">
             <div>
               <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--ax-accent)]">Axion Science · one project, many instruments</p>
-              <h1 className="mt-4 max-w-5xl text-5xl leading-[0.98] tracking-[-0.065em] text-[var(--ax-text)] sm:text-6xl lg:text-[76px]">
+              <h1 className="mt-4 max-w-5xl font-[family-name:var(--ax-font-display)] text-5xl font-medium leading-[0.98] tracking-[-0.045em] text-[var(--ax-text)] sm:text-6xl lg:text-[72px]">
                 Scientific work should stay connected.
               </h1>
               <p className="mt-6 max-w-2xl text-base leading-8 text-[var(--ax-text-soft)] sm:text-lg">
