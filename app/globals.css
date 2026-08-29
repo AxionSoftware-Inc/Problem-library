@@ -1,30 +1,31 @@
 @import "tailwindcss";
 
 :root {
-  --color-bg: #f3f6fa;
-  --color-surface: #ffffff;
-  --color-surface-soft: #f7f9fc;
-  --color-surface-strong: #ffffff;
-  --color-text: #1f2937;
-  --color-text-strong: #0f172a;
-  --color-muted: #5b6678;
-  --color-accent: #2563eb;
-  --color-accent-soft: #dbeafe;
-  --color-accent-strong: #1d4ed8;
-  --color-success: #0f766e;
-  --color-line: rgba(148, 163, 184, 0.34);
-  --color-line-soft: rgba(148, 163, 184, 0.22);
-  --color-line-strong: rgba(100, 116, 139, 0.56);
-  --shadow-hero: 0 1px 2px rgba(15, 23, 42, 0.05);
-  --shadow-panel: 0 1px 2px rgba(15, 23, 42, 0.06);
-  --shadow-soft: 0 1px 2px rgba(15, 23, 42, 0.04);
-  --radius-hero: 16px;
-  --radius-panel: 12px;
+  /* Legacy Hub token aliases. New components should use --ax-* directly. */
+  --color-bg: var(--ax-canvas);
+  --color-surface: var(--ax-surface);
+  --color-surface-soft: var(--ax-surface-soft);
+  --color-surface-strong: var(--ax-surface);
+  --color-text: var(--ax-text);
+  --color-text-strong: var(--ax-text);
+  --color-muted: var(--ax-text-soft);
+  --color-accent: var(--ax-accent);
+  --color-accent-soft: var(--ax-accent-soft);
+  --color-accent-strong: var(--ax-accent-strong);
+  --color-success: var(--ax-success);
+  --color-line: var(--ax-line);
+  --color-line-soft: var(--ax-line);
+  --color-line-strong: var(--ax-line-strong);
+  --shadow-hero: var(--ax-shadow-subtle);
+  --shadow-panel: var(--ax-shadow-subtle);
+  --shadow-soft: var(--ax-shadow-subtle);
+  --radius-hero: var(--ax-radius-panel);
+  --radius-panel: var(--ax-radius-panel);
 }
 
 @theme inline {
-  --color-background: var(--color-bg);
-  --color-foreground: var(--color-text);
+  --color-background: var(--ax-canvas);
+  --color-foreground: var(--ax-text);
   --font-sans: var(--font-body);
   --font-display: var(--font-display);
   --font-mono: var(--font-geist-mono);
@@ -41,9 +42,9 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-  background: #f3f6fa;
-  color: var(--color-text);
-  font-family: var(--font-body), sans-serif;
+  background: var(--ax-canvas);
+  color: var(--ax-text);
+  font-family: var(--ax-font-ui);
 }
 
 a {
@@ -59,6 +60,6 @@ textarea {
 }
 
 ::selection {
-  background: rgba(37, 99, 235, 0.16);
-  color: var(--color-text-strong);
+  background: color-mix(in srgb, var(--ax-accent) 16%, transparent);
+  color: var(--ax-text);
 }
