@@ -4,6 +4,7 @@ import { EcosystemBar } from "@/components/ecosystem/ecosystem-bar";
 import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
 import "./globals.css";
+import "@/styles/axion-science-tokens.css";
 
 const bodyFont = Manrope({
   variable: "--font-body",
