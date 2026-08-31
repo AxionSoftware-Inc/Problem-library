@@ -5,6 +5,7 @@ import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
 import "./globals.css";
 import "@/styles/axion-science-tokens.css";
+import "@/styles/axion-premium-landing.css";
 
 const bodyFont = Manrope({
   variable: "--font-body",
