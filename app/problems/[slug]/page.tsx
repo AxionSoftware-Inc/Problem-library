@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-import { PageContainer, PageSection, PageShell } from "@/components/ui/page-shell";
 import {
   CalculationSection,
   CodeSection,
@@ -17,22 +16,24 @@ export function generateStaticParams() {
   return [{ slug: ledDesignProblem.meta.slug }];
 }
 
-export default async function ProblemPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+export default async function ProblemPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
 
-  if (slug !== ledDesignProblem.meta.slug) {
-    notFound();
-  }
+  if (slug !== ledDesignProblem.meta.slug) notFound();
 
   return (
-    <PageShell tone="alt">
-      <PageSection className="pt-4 sm:pt-5">
-        <PageContainer>
-          <div className="grid gap-3">
+    <div className="ax-workspace-root ax-problem-detail">
+      <main className="ax-work-container py-10 sm:py-12 lg:py-16">
+        <div className="mx-auto max-w-[1260px]">
+          <div className="mb-5 flex items-center justify-between gap-4 border-b border-[var(--ax-work-line)] pb-4">
+            <div>
+              <div className="ax-work-kicker">Scientific case file</div>
+              <div className="mt-1 text-[10px] text-[var(--ax-text-faint)]">Model · constraints · calculation · evidence · provenance</div>
+            </div>
+            <a href="/problems" className="text-[10px] font-semibold text-[var(--ax-accent)] hover:text-[var(--ax-accent-strong)]">Problem library →</a>
+          </div>
+
+          <div className="grid gap-5 lg:gap-6">
             <ProblemNarrative problem={ledDesignProblem} />
             <ProblemStory problem={ledDesignProblem} />
             <ConstraintList constraints={ledDesignProblem.constraints} />
@@ -43,8 +44,8 @@ export default async function ProblemPage({
             <CodeSection samples={ledDesignProblem.codeSamples} />
             <NotesSection notes={ledDesignProblem.notes} />
           </div>
-        </PageContainer>
-      </PageSection>
-    </PageShell>
+        </div>
+      </main>
+    </div>
   );
 }
