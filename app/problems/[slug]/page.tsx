@@ -33,7 +33,7 @@ export default async function ProblemPage({ params }: { params: Promise<{ slug: 
             <a href="/problems" className="text-[10px] font-semibold text-[var(--ax-accent)] hover:text-[var(--ax-accent-strong)]">Problem library →</a>
           </div>
 
-          <div className="grid gap-5 lg:gap-6">
+          <div className="ax-problem-sections grid gap-5 lg:gap-6">
             <ProblemNarrative problem={ledDesignProblem} />
             <ProblemStory problem={ledDesignProblem} />
             <ConstraintList constraints={ledDesignProblem.constraints} />
