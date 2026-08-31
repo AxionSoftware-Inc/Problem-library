@@ -7,37 +7,35 @@ function ScienceMark() {
   return (
     <svg viewBox="0 0 40 40" className="h-9 w-9 text-[var(--ax-accent)]" aria-hidden="true">
       <circle cx="20" cy="20" r="17.2" fill="none" stroke="currentColor" strokeWidth="1.05" />
-      <ellipse cx="20" cy="20" rx="7.8" ry="17.2" fill="none" stroke="currentColor" strokeWidth="0.78" opacity="0.68" />
-      <ellipse cx="20" cy="20" rx="17.2" ry="7.5" fill="none" stroke="currentColor" strokeWidth="0.78" opacity="0.68" />
-      <path d="M3 20h34M20 3v34" stroke="currentColor" strokeWidth="0.7" opacity="0.46" />
-      <circle cx="31.7" cy="11.9" r="1.55" fill="currentColor" />
+      <ellipse cx="20" cy="20" rx="7.6" ry="17.2" fill="none" stroke="currentColor" strokeWidth="0.8" opacity="0.68" />
+      <ellipse cx="20" cy="20" rx="17.2" ry="7.5" fill="none" stroke="currentColor" strokeWidth="0.8" opacity="0.68" />
+      <path d="M2.8 20h34.4M20 2.8v34.4" stroke="currentColor" strokeWidth="0.7" opacity="0.45" />
+      <circle cx="31.7" cy="11.9" r="1.45" fill="currentColor" />
     </svg>
   );
 }
-
-const navLink = "rounded-[var(--ax-radius-control)] px-2.5 py-2 text-[12px] font-semibold text-[var(--ax-text-soft)] outline-none transition-colors duration-[var(--ax-motion-fast)] hover:bg-[var(--ax-surface-soft)] hover:text-[var(--ax-text)] focus-visible:shadow-[var(--ax-focus-ring)]";
 
 export function Navbar() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-40 border-b border-[var(--ax-line)] bg-[color-mix(in_srgb,var(--ax-surface)_94%,transparent)] backdrop-blur-xl">
-      <div className="mx-auto flex h-[72px] w-full max-w-[1520px] items-center justify-between gap-6 px-6 sm:px-8 lg:px-12 xl:px-16 2xl:px-20">
-        <Link href="/" className="flex min-w-0 items-center gap-3.5 rounded-[var(--ax-radius-control)] outline-none focus-visible:shadow-[var(--ax-focus-ring)]" aria-label="Axion Science home">
+    <header className="ax-premium-nav">
+      <div className="ax-landing-container ax-premium-nav-inner">
+        <Link href="/" className="flex min-w-0 items-center gap-3.5 outline-none focus-visible:shadow-[var(--ax-focus-ring)]" aria-label="Axion Science home">
           <ScienceMark />
-          <span className="min-w-0 leading-none"><span className="block truncate font-[family-name:var(--ax-font-display)] text-[23px] font-medium tracking-[-0.035em] text-[var(--ax-text)]">Axion Science</span><span className="mt-1 block text-[8px] font-semibold uppercase tracking-[0.28em] text-[var(--ax-text-faint)]">Scientific workspace</span></span>
+          <span className="min-w-0 leading-none"><span className="block truncate font-[family-name:var(--ax-font-display)] text-[22px] font-medium tracking-[-0.035em] text-[var(--ax-text)]">Axion Science</span><span className="mt-1 block text-[8px] font-semibold uppercase tracking-[0.25em] text-[var(--ax-text-faint)]">Scientific workspace</span></span>
         </Link>
 
         <nav className="hidden items-center gap-1 xl:flex" aria-label="Science Hub product">
-          <Link href="/#product" className={navLink}>Product</Link>
-          <Link href="/#workflow" className={navLink}>Workflow</Link>
-          <Link href="/#capabilities" className={navLink}>Capabilities</Link>
-          <Link href="/#ecosystem" className={navLink}>Ecosystem</Link>
+          <Link href="/#product" className="ax-premium-nav-link">Product</Link>
+          <Link href="/#workflow" className="ax-premium-nav-link">Workflow</Link>
+          <Link href="/#capabilities" className="ax-premium-nav-link">Capabilities</Link>
+          <Link href="/#ecosystem" className="ax-premium-nav-link">Ecosystem</Link>
         </nav>
 
-        <div className="flex items-center gap-2">
-          <Link href="/problems" className="hidden rounded-[var(--ax-radius-control)] px-3 py-2 text-[11px] font-semibold text-[var(--ax-text-soft)] transition-colors hover:bg-[var(--ax-surface-soft)] hover:text-[var(--ax-text)] sm:inline-flex">Explore</Link>
-          <Link href="/projects" aria-current={pathname.startsWith('/projects') ? 'page' : undefined} className="inline-flex h-10 items-center rounded-[var(--ax-radius-control)] bg-[var(--ax-accent-strong)] px-4 text-[11px] font-semibold text-white transition-colors hover:bg-[var(--ax-accent)] sm:px-5">Open Projects <span className="ml-2 text-sm">→</span></Link>
+        <div className="flex items-center gap-1.5">
+          <Link href="/problems" className="ax-premium-secondary hidden sm:inline-flex">Explore</Link>
+          <Link href="/projects" data-active={pathname.startsWith('/projects') || undefined} className="ax-premium-primary">Open Projects <span aria-hidden="true">→</span></Link>
         </div>
       </div>
     </header>
