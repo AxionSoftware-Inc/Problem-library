@@ -1,8 +1,8 @@
 export const ui = {
   page: "relative min-h-screen bg-[var(--color-bg)] text-[var(--color-text)]",
   pageAlt: "relative min-h-screen bg-[var(--color-bg)] text-[var(--color-text)]",
-  container: "mx-auto w-full max-w-[1520px] px-3 sm:px-4 lg:px-5",
-  pageSection: "py-5 sm:py-6 lg:py-8",
+  container: "mx-auto w-full max-w-[1520px] px-6 sm:px-8 lg:px-12 xl:px-16 2xl:px-20",
+  pageSection: "py-10 sm:py-12 lg:py-16",
   sectionGap: "space-y-4 sm:space-y-5",
   sectionHeader: "max-w-4xl space-y-2",
   overline:
