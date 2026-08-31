@@ -35,7 +35,7 @@ export function Navbar() {
 
         <div className="flex items-center gap-1.5">
           <Link href="/problems" className="ax-premium-secondary hidden sm:inline-flex">Explore</Link>
-          <Link href="/projects" data-active={pathname.startsWith('/projects') || undefined} className="ax-premium-primary">Open Projects <span aria-hidden="true">→</span></Link>
+          <Link href="/projects" data-active={pathname.startsWith('/projects') ? 'true' : undefined} className="ax-premium-primary">Open Projects <span aria-hidden="true">→</span></Link>
         </div>
       </div>
     </header>
