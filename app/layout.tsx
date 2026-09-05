@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Manrope, Playfair_Display } from "next/font/google";
 import { EcosystemBar } from "@/components/ecosystem/ecosystem-bar";
+import { EcosystemKeyboardNav } from "@/components/ecosystem/ecosystem-keyboard-nav";
 import { Footer } from "@/components/footer";
 import { Navbar } from "@/components/navbar";
 import "./globals.css";
@@ -21,6 +22,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="uz">
       <body className={`${bodyFont.variable} ${displayFont.variable} ${geistMono.variable} antialiased`}>
+        <EcosystemKeyboardNav currentApp="science" />
         <div className="relative flex min-h-screen flex-col">
           <EcosystemBar currentApp="science" />
           <Navbar />
