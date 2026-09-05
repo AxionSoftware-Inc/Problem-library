@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { allProblems } from "@/app/data";
 import { ProjectCreateModal } from "@/components/library/project-create-modal";
 import { ProblemDetailCard } from "@/components/problems/problem-detail-card";
+import { createLocalProject } from "@/lib/ecosystem/local-projects";
 
 export default function ProblemsPage() {
   const router = useRouter();
@@ -41,30 +42,26 @@ export default function ProblemsPage() {
     });
   })();
 
-  async function createProject() {
+  function createProject() {
     setSaving(true);
     setMessage("");
 
     try {
-      const response = await fetch("http://localhost:8000/api/projects/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          slug: form.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
-          title: form.title,
-          topic: form.topic,
-          difficulty: form.difficulty,
-          description: form.description,
-          status: "draft",
-        }),
-      });
+      const context = [
+        form.description.trim(),
+        form.topic.trim() ? `Topic: ${form.topic.trim()}` : "",
+        form.difficulty ? `Difficulty: ${form.difficulty}` : "",
+      ].filter(Boolean).join(" · ");
 
-      if (!response.ok) throw new Error("Create failed");
-      setMessage("Project created.");
+      createLocalProject(form.title, context);
+      setMessage("Project created on this device.");
       setForm({ title: "", topic: "", difficulty: "Medium", description: "" });
       setOpen(false);
-    } catch {
-      setMessage("Backend connection failed. Check Django server on port 8000.");
+      router.push("/projects");
+    } catch (error) {
+      setMessage(error instanceof Error && error.message === "PROJECT_TITLE_REQUIRED"
+        ? "Add a project title first."
+        : "The Project could not be created on this device.");
     } finally {
       setSaving(false);
     }
@@ -77,7 +74,7 @@ export default function ProblemsPage() {
           <div>
             <p className="ax-work-kicker">Scientific library</p>
             <h1 className="ax-work-title">Problems worth exploring.</h1>
-            <p className="ax-work-lead">Browse technical cases by topic and difficulty, then turn the useful ones into a Project and continue the work in the scientific instruments.</p>
+            <p className="ax-work-lead">Browse technical cases by topic and difficulty, then turn the useful ones into a local Project and continue the work in the scientific instruments.</p>
             <div className="mt-7">
               <button type="button" className="inline-flex h-10 items-center rounded-[var(--ax-work-control-radius)] bg-[var(--ax-accent-strong)] px-4 text-[11px] font-semibold text-white hover:bg-[var(--ax-accent)]" onClick={() => setOpen(true)}>
                 Create project
